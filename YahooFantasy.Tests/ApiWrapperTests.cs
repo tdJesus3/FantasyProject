@@ -12,5 +12,21 @@ namespace YahooFantasy.Tests
 			var wrapper = new Api.ApiWrapper();
 			wrapper.GetStatCategories("nfl");
 		}
+
+		[TestMethod]
+		public void TestInit()
+		{
+			var wrapper = new Api.ApiWrapper();
+			wrapper.Init("nfl");
+		}
+
+		[TestMethod]
+		public void TestGetPlayers()
+		{
+			var wrapper = new Api.ApiWrapper();
+			wrapper.Init("nfl");
+
+			wrapper.GetPlayers();
+		}
 	}
 }
