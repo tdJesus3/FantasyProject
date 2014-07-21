@@ -1,26 +1,29 @@
-﻿using RestSharp.Deserializers;
-using System;
+﻿using Newtonsoft.Json;
+using RestSharp.Deserializers;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YahooFantasy.Api.Models
 {
 	public class FantasyContent
 	{
 		[DeserializeAs(Name = "xml:lang")]
+		[JsonProperty("xml:lang")]
 		public string Language { get; set; }
 
 		[DeserializeAs(Name = "yahoo:uri")]
+		[JsonProperty("yahoo:uri")]
 		public string YahooUri { get; set; }
 
+		[JsonProperty("time")]
 		public string Time { get; set; }
 
+		[JsonProperty("copyright")]
 		public string Copyright { get; set; }
 
+		[JsonProperty("refresh_rate")]
 		public string RefreshRate { get; set; }
 
+		[JsonProperty("game")]
 		public List<Game> Game { get; set; }
 	}
 }

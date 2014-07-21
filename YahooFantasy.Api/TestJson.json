@@ -1,0 +1,91 @@
+﻿{
+    "fantasy_content": {
+        "xml:lang": "en-US",
+        "yahoo:uri": "\/fantasy\/v2\/game\/nfl\/players;count=1;start=0",
+        "game": [
+            {
+                "game_key": "331",
+                "game_id": "331",
+                "name": "Football",
+                "code": "nfl",
+                "type": "full",
+                "url": "http:\/\/football.fantasysports.yahoo.com\/f1",
+                "season": "2014"
+            },
+            {
+                "players": {
+                    "0": {
+                        "player": [
+                            [
+                                {
+                                    "player_key": "331.p.8850"
+                                },
+                                {
+                                    "player_id": "8850"
+                                },
+                                {
+                                    "name": {
+                                        "full": "Jamaal Charles",
+                                        "first": "Jamaal",
+                                        "last": "Charles",
+                                        "ascii_first": "Jamaal",
+                                        "ascii_last": "Charles"
+                                    }
+                                },
+                                {
+                                    "editorial_player_key": "nfl.p.8850"
+                                },
+                                {
+                                    "editorial_team_key": "nfl.t.12"
+                                },
+                                {
+                                    "editorial_team_full_name": "Kansas City Chiefs"
+                                },
+                                {
+                                    "editorial_team_abbr": "KC"
+                                },
+                                {
+                                    "bye_weeks": {
+                                        "week": "6"
+                                    }
+                                },
+                                {
+                                    "uniform_number": "25"
+                                },
+                                {
+                                    "display_position": "RB"
+                                },
+                                {
+                                    "headshot": {
+                                        "url": "http:\/\/l.yimg.com\/iu\/api\/res\/1.2\/084uD0cG9qCYdPSjJLX9.A--\/YXBwaWQ9eXZpZGVvO2NoPTg2MDtjcj0xO2N3PTY1OTtkeD0xO2R5PTE7Zmk9dWxjcm9wO2g9NjA7cT0xMDA7dz00Ng--\/http:\/\/l.yimg.com\/j\/assets\/i\/us\/sp\/v\/nfl\/players_l\/20120913\/8850.jpg",
+                                        "size": "small"
+                                    },
+                                    "image_url": "http:\/\/l.yimg.com\/iu\/api\/res\/1.2\/084uD0cG9qCYdPSjJLX9.A--\/YXBwaWQ9eXZpZGVvO2NoPTg2MDtjcj0xO2N3PTY1OTtkeD0xO2R5PTE7Zmk9dWxjcm9wO2g9NjA7cT0xMDA7dz00Ng--\/http:\/\/l.yimg.com\/j\/assets\/i\/us\/sp\/v\/nfl\/players_l\/20120913\/8850.jpg"
+                                },
+                                {
+                                    "is_undroppable": "0"
+                                },
+                                {
+                                    "position_type": "O"
+                                },
+                                {
+                                    "eligible_positions": [
+                                        {
+                                            "position": "RB"
+                                        }
+                                    ]
+                                },
+                                [ ],
+                                [ ]
+                            ]
+                        ]
+                    },
+                    "count": 1
+                }
+            }
+        ],
+        "time": "215.82293510437ms",
+        "copyright": "Data provided by Yahoo! and STATS, LLC",
+        "refresh_rate": "60"
+    }
+}

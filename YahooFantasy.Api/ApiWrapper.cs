@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DotNetOpenAuth.OAuth2;
+﻿using RestSharp;
 using RestSharp.Authenticators;
-using RestSharp;
 using YahooFantasy.Api.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using YahooFantasy.Api.Models.PlayersModel;
+using System.Collections.Generic;
+using YahooFantasy.Api.JsonConverters;
 
 namespace YahooFantasy.Api
 {
@@ -49,10 +48,32 @@ namespace YahooFantasy.Api
 				request.AddUrlSegment("gameType", _gameType);
 				request.AddUrlSegment("start", start.ToString());
 				request.AddUrlSegment("count", count.ToString());
-				//request.AddJsonParam();
+				request.AddJsonParam();
 
 				var response = _client.Execute(request);
-				var data = response.Content;
+				var json = JObject.Parse(response.Content);
+				var players = json["fantasy_content"]["game"][1]["players"];
+				players.Last.Remove();
+
+				// players is now just the player elements; the count has been removed
+
+				var playerElement = players["0"]["player"][0];
+				playerElement.Last.Remove();
+				playerElement.Last.Remove();
+
+				var hateYahoo = JsonConvert.DeserializeObject<Dictionary<string, Player>>(players.ToString(), new JsonPlayerConverter());
+
+				var playerDes = JsonConvert.DeserializeObject<Player>(playerElement.ToString(), new JsonPlayerConverter());
+
+				// This is going to throw an error.
+				// We probably need to implement a custom JsonConverter
+				// See: http://stackoverflow.com/questions/13067842/json-net-deserialize-nested-arrays-into-strongly-typed-object
+				//		http://stackoverflow.com/questions/8241392/deserializing-heterogenous-json-array-into-covariant-list-using-json-net
+
+				var playerObj = JsonConvert.DeserializeObject<Player>(playerElement.ToString());
+
+				var playersObj = JsonConvert.DeserializeObject<Dictionary<string, PlayerRoot>>(players.ToString());
+
 
 				start += count;
 			}

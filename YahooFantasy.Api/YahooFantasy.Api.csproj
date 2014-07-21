@@ -98,6 +98,10 @@
     <Reference Include="DotNetOpenAuth.OpenIdOAuth">
       <HintPath>..\packages\DotNetOpenAuth.OpenIdOAuth.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenIdOAuth.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -120,9 +124,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiWrapper.cs" />
+    <Compile Include="JsonConverters\JsonPlayerConverter.cs" />
     <Compile Include="Models\FantasyContent.cs" />
     <Compile Include="Models\Game.cs" />
-    <Compile Include="Models\Players\TestXml.cs" />
+    <Compile Include="Models\PlayersModel\ByeWeeks.cs" />
+    <Compile Include="Models\PlayersModel\EligiblePosition.cs" />
+    <Compile Include="Models\PlayersModel\Headshot.cs" />
+    <Compile Include="Models\PlayersModel\Player.cs" />
+    <Compile Include="Models\PlayersModel\PlayerName.cs" />
+    <Compile Include="Models\PlayersModel\Players.cs" />
+    <Compile Include="Models\PlayersModel\PlayerRoot.cs" />
     <Compile Include="Models\PositionTypes.cs" />
     <Compile Include="Models\Stat.cs" />
     <Compile Include="Models\StatCategories.cs" />
@@ -135,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\StatCategories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestJson.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
