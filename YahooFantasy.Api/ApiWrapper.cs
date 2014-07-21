@@ -39,12 +39,23 @@ namespace YahooFantasy.Api
 
 		public void GetPlayers()
 		{
-			var request = new RestRequest("game/{gameType}/players", Method.GET);
-			request.AddUrlSegment("gameType", _gameType);
-			request.AddJsonParam();
+			int start = 0;
+			int count = 25;
+			var proceed = true;
+			while (proceed)
+			{
+				var request =
+					new RestRequest("game/{gameType}/players;start={start};count={count}", Method.GET);
+				request.AddUrlSegment("gameType", _gameType);
+				request.AddUrlSegment("start", start.ToString());
+				request.AddUrlSegment("count", count.ToString());
+				//request.AddJsonParam();
 
-			var response = _client.Execute(request);
-			var data = response.Content;
+				var response = _client.Execute(request);
+				var data = response.Content;
+
+				start += count;
+			}
 		}
 
 		public void GetPlayerStats(string playerKey)
@@ -63,8 +74,8 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("gameType", gameType);
 			request.AddJsonParam();
 
-			var response = _client.Execute<StatTypeModel>(request);
-			var data = (StatTypeModel)response.Data;
+			var response = _client.Execute<FantasyModel>(request);
+			var data = (FantasyModel)response.Data;
 
 			string b = "bbbb";
 		}
@@ -75,8 +86,8 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("gameType", gameType);
 			request.AddJsonParam();
 
-			var response = _client.Execute<StatTypeModel>(request);
-			var data = (StatTypeModel)response.Data;
+			var response = _client.Execute<FantasyModel>(request);
+			var data = (FantasyModel)response.Data;
 
 			if (data != null && data.FantasyContent != null && data.FantasyContent.Game[1] != null)
 				return data.FantasyContent.Game[1].StatCategories;

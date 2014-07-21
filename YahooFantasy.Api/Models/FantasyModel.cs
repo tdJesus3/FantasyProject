@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace YahooFantasy.Api.Models
 {
-	public class StatTypeModel
+	public class FantasyModel
 	{
 		[DeserializeAs(Name = "fantasy_content")]
 		public FantasyContent FantasyContent { get; set; }
