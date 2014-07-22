@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using RestSharp.Deserializers;
 using System.Collections.Generic;
 
 namespace YahooFantasy.Api.Models.PlayersModel

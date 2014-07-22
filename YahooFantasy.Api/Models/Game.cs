@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using YahooFantasy.Api.Models.PlayersModel;
 
 namespace YahooFantasy.Api.Models
 {

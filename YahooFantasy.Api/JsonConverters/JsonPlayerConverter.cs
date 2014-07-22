@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +34,7 @@ namespace YahooFantasy.Api.JsonConverters
 				{
 					prop.SetValue(player, (string)value, null);
 				}
-				else if (type  == typeof(PlayerName))
+				else if (type == typeof(PlayerName))
 				{
 					var playerName = JsonConvert.DeserializeObject<PlayerName>(value.ToString());
 					prop.SetValue(player, (PlayerName)playerName, null);

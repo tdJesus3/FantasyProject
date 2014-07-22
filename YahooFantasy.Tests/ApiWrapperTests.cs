@@ -23,7 +23,7 @@ namespace YahooFantasy.Tests
 		{
 			var wrapper = new Api.ApiWrapper("nfl");
 
-			wrapper.GetPlayers();
+			wrapper.GetAllPlayers();
 		}
 
 		[TestMethod]
@@ -31,7 +31,7 @@ namespace YahooFantasy.Tests
 		{
 			var wrapper = new Api.ApiWrapper("nfl");
 
-			wrapper.GetStatsByPlayer("223.p.5479");
+			wrapper.GetStatsByPlayer("5479", "2009");
 		}
 	}
 }

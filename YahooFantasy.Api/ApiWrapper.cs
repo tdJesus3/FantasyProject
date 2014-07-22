@@ -1,11 +1,12 @@
-﻿using RestSharp;
-using RestSharp.Authenticators;
-using YahooFantasy.Api.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using YahooFantasy.Api.Models.PlayersModel;
+using RestSharp;
+using RestSharp.Authenticators;
+using System;
 using System.Collections.Generic;
 using YahooFantasy.Api.JsonConverters;
+using YahooFantasy.Api.Models;
+using YahooFantasy.Api.Models.PlayersModel;
 
 namespace YahooFantasy.Api
 {
@@ -23,10 +24,10 @@ namespace YahooFantasy.Api
 		private const string Secret = "b1bf7c4b847dfcd294129b32266c65eb08360169";
 		private const string BaseUrl = "http://fantasysports.yahooapis.com/fantasy/v2/";
 
-		private string _gameType;
+		private readonly string _gameType;
 		private readonly RestClient _client;
 
-		private readonly Dictionary<string, string> _gameKeys =
+		private readonly Dictionary<string, string> _nflGameKeys =
 			new Dictionary<string, string>
 			{
 				{ "2001", "57" },
@@ -53,68 +54,121 @@ namespace YahooFantasy.Api
 			_gameType = gameType;
 		}
 
-		public void GetPlayers()
+		/// <summary>
+		/// Get all players. The API *appears* to limit us to 25 records per call.
+		/// This method should probably be private.
+		/// </summary>
+		/// <returns>List of Player</returns>
+		public List<Player> GetAllPlayers()
 		{
+			var playerList = new List<Player>();
+
 			int start = 0;
 			int count = 25;
 			var proceed = true;
+
 			while (proceed)
 			{
-				var request =
-					new RestRequest("game/{gameType}/players;start={start};count={count}", Method.GET);
-				request.AddUrlSegment("gameType", _gameType);
-				request.AddUrlSegment("start", start.ToString());
-				request.AddUrlSegment("count", count.ToString());
-				request.AddJsonParam();
+				try
+				{
+					var request =
+						new RestRequest("game/{gameType}/players;start={start};count={count}", Method.GET);
+					request.AddUrlSegment("gameType", _gameType);
+					request.AddUrlSegment("start", start.ToString());
+					request.AddUrlSegment("count", count.ToString());
+					request.AddJsonParam();
 
-				var response = _client.Execute(request);
-				var json = JObject.Parse(response.Content);
-				var playersJson = json["fantasy_content"]["game"][1]["players"];
+					var response = _client.Execute(request);
+					var json = JObject.Parse(response.Content);
+					var playersJson = json["fantasy_content"]["game"][1]["players"];
 
-				// Remove the count element
-				playersJson.Last.Remove();
+					// Remove the count element
+					playersJson.Last.Remove();
 
-				var players = JsonConvert.DeserializeObject<Dictionary<string, Player>>(
-					playersJson.ToString(), new JsonPlayerConverter());
+					var players = JsonConvert.DeserializeObject<Dictionary<string, Player>>(
+						playersJson.ToString(), new JsonPlayerConverter());
 
-				start += count;
+					playerList.AddRange(players.Values);
+
+					start += count;
+				}
+				catch
+				{
+					proceed = false;
+				}
 			}
+
+			return playerList;
 		}
 
-		public void GetStatCategories()
+		public void GetStatsByPlayer(string playerId, string year)
 		{
-			var request = new RestRequest("game/{gameType}/stat_categories", Method.GET);
-			request.AddUrlSegment("gameType", _gameType);
-			request.AddJsonParam();
+			// todo: parameter sanity checks
+			string yearKey;
+			if (!_nflGameKeys.TryGetValue(year, out yearKey))
+				return;
 
-			var response = _client.Execute<FantasyModel>(request);
-			var data = (FantasyModel)response.Data;
-		}
-
-		public void GetStatsByPlayer(string playerId)
-		{
-			var request = new RestRequest("player/{playerId}/stats;type=week;week={week}");
+			var request = new RestRequest("player/{yearKey}.p.{playerId}/stats");
+			request.AddUrlSegment("yearKey", yearKey);
 			request.AddUrlSegment("playerId", playerId);
-			request.AddUrlSegment("week", "7");
 			request.AddJsonParam();
 
 			var response = _client.Execute(request);
 			var data = response.Content;
 		}
 
-		private StatCategories FillStatCategories(string gameType)
+		public void GetWeeklyStatsByPlayer(string playerId, string year, int week)
 		{
-			var request = new RestRequest("game/{gameType}/stat_categories", Method.GET);
-			request.AddUrlSegment("gameType", gameType);
+			// todo: parameter sanity checks
+			string yearKey;
+			if (!_nflGameKeys.TryGetValue(year, out yearKey))
+				return;
+
+			var request = new RestRequest("player/{yearKey}.p.{playerId}/stats;type=week;week={week}");
+			request.AddUrlSegment("yearKey", yearKey);
+			request.AddUrlSegment("playerId", playerId);
+			request.AddUrlSegment("week", week.ToString());
 			request.AddJsonParam();
 
-			var response = _client.Execute<FantasyModel>(request);
-			var data = (FantasyModel)response.Data;
+			var response = _client.Execute(request);
+			var data = response.Content;
+		}
 
-			if (data != null && data.FantasyContent != null && data.FantasyContent.Game[1] != null)
-				return data.FantasyContent.Game[1].StatCategories;
+		/// <summary>
+		/// Get a StatCategories object for the requested game type.
+		/// The StatCategories object contains a list of Stats.
+		/// </summary>
+		/// <returns>StatCategories</returns>
+		public StatCategories GetStatCategories()
+		{
+			// todo: Possibly return a List<Stat> instead of the root StatCategories object
+			var request = new RestRequest("game/{gameType}/stat_categories", Method.GET);
+			request.AddUrlSegment("gameType", _gameType);
+			request.AddJsonParam();
+
+			try
+			{
+				var response = _client.Execute<FantasyModel>(request);
+				var data = (FantasyModel)response.Data;
+
+				if (data != null && data.FantasyContent != null && data.FantasyContent.Game[1] != null)
+					return data.FantasyContent.Game[1].StatCategories;
+			}
+			catch
+			{
+				throw;
+			}
 
 			return null;
+		}
+
+		private string GetYearKey(string year)
+		{
+			string yearKey;
+			if (!_nflGameKeys.TryGetValue(year, out yearKey))
+				throw new ArgumentException("Invalid year.", "year");
+
+			return yearKey;
 		}
 	}
 }
