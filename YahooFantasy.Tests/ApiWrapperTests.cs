@@ -8,24 +8,30 @@ namespace YahooFantasy.Tests
 		[TestMethod]
 		public void TestGetStatCategories()
 		{
-			var wrapper = new Api.ApiWrapper();
-			wrapper.GetStatCategories("nfl");
+			var wrapper = new Api.ApiWrapper("nfl");
+			wrapper.GetStatCategories();
 		}
 
 		[TestMethod]
 		public void TestInit()
 		{
-			var wrapper = new Api.ApiWrapper();
-			wrapper.Init("nfl");
+			var wrapper = new Api.ApiWrapper("nfl");
 		}
 
 		[TestMethod]
 		public void TestGetPlayers()
 		{
-			var wrapper = new Api.ApiWrapper();
-			wrapper.Init("nfl");
+			var wrapper = new Api.ApiWrapper("nfl");
 
 			wrapper.GetPlayers();
+		}
+
+		[TestMethod]
+		public void TestGetPlayerStats()
+		{
+			var wrapper = new Api.ApiWrapper("nfl");
+
+			wrapper.GetStatsByPlayer("223.p.5479");
 		}
 	}
 }

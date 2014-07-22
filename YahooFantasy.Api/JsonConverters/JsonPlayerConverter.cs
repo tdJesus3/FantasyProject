@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using YahooFantasy.Api.Models.PlayersModel;
 
@@ -21,15 +22,39 @@ namespace YahooFantasy.Api.JsonConverters
 			var content = array.Children<JObject>();
 
 			var player = new Player();
-			foreach (var prop in player.GetType().GetProperties().Where(pl => pl.GetType() == typeof(String)))
+			foreach (var prop in player.GetType().GetProperties())
 			{
 				var attr = prop.GetCustomAttributes(typeof(JsonPropertyAttribute), false).FirstOrDefault();
 				var propName = ((JsonPropertyAttribute)attr).PropertyName;
-
-				var jsonElement = content.FirstOrDefault(c => c.Properties().Any(p => p.Name == propName));
+				var jsonElement = content.FirstOrDefault(c => c.Properties()
+										.Any(p => p.Name == propName));
 				var value = jsonElement.GetValue(propName);
+				var type = prop.PropertyType;
 
-				prop.SetValue(prop, (String)value);
+				if (type == typeof(string))
+				{
+					prop.SetValue(player, (string)value, null);
+				}
+				else if (type  == typeof(PlayerName))
+				{
+					var playerName = JsonConvert.DeserializeObject<PlayerName>(value.ToString());
+					prop.SetValue(player, (PlayerName)playerName, null);
+				}
+				else if (type == typeof(Headshot))
+				{
+					var headshot = JsonConvert.DeserializeObject<Headshot>(value.ToString());
+					prop.SetValue(player, headshot, null);
+				}
+				else if (type == typeof(ByeWeeks))
+				{
+					var byeWeeks = JsonConvert.DeserializeObject<ByeWeeks>(value.ToString());
+					prop.SetValue(player, byeWeeks, null);
+				}
+				else if (type == typeof(List<EligiblePosition>))
+				{
+					var eligiblePositions = JsonConvert.DeserializeObject<List<EligiblePosition>>(value.ToString());
+					prop.SetValue(player, eligiblePositions, null);
+				}
 			}
 			return player;
 		}

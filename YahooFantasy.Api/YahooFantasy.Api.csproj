@@ -132,8 +132,6 @@
     <Compile Include="Models\PlayersModel\Headshot.cs" />
     <Compile Include="Models\PlayersModel\Player.cs" />
     <Compile Include="Models\PlayersModel\PlayerName.cs" />
-    <Compile Include="Models\PlayersModel\Players.cs" />
-    <Compile Include="Models\PlayersModel\PlayerRoot.cs" />
     <Compile Include="Models\PositionTypes.cs" />
     <Compile Include="Models\Stat.cs" />
     <Compile Include="Models\StatCategories.cs" />

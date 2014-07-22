@@ -29,8 +29,5 @@ namespace YahooFantasy.Api.Models
 
 		[JsonProperty("stat_categories")]
 		public StatCategories StatCategories { get; set; }
-
-		[JsonProperty("players")]
-		public Players Players { get; set; }
 	}
 }

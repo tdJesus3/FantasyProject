@@ -21,19 +21,36 @@ namespace YahooFantasy.Api
 	{
 		private const string ConsumerKey = "dj0yJmk9d2k1UVdlS0RlWWFGJmQ9WVdrOVRVbFlkbW8xTkc4bWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD02OA--";
 		private const string Secret = "b1bf7c4b847dfcd294129b32266c65eb08360169";
-
 		private const string BaseUrl = "http://fantasysports.yahooapis.com/fantasy/v2/";
 
 		private string _gameType;
-
 		private readonly RestClient _client;
+
+		private readonly Dictionary<string, string> _gameKeys =
+			new Dictionary<string, string>
+			{
+				{ "2001", "57" },
+				{ "2002", "49" },
+				{ "2003", "79" },
+				{ "2004", "101" },
+				{ "2005", "124" },
+				{ "2006", "153" },
+				{ "2007", "175" },
+				{ "2008", "199" },
+				{ "2009", "222" },
+				{ "2010", "242" },
+				{ "2011", "257" },
+				{ "2012", "273" },
+				{ "2013", "300" }
+			};
 
 		public StatCategories StatCategories { get; set; }
 
-		public ApiWrapper()
+		public ApiWrapper(string gameType)
 		{
 			_client = new RestClient(BaseUrl);
 			_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, "", "");
+			_gameType = gameType;
 		}
 
 		public void GetPlayers()
@@ -52,53 +69,37 @@ namespace YahooFantasy.Api
 
 				var response = _client.Execute(request);
 				var json = JObject.Parse(response.Content);
-				var players = json["fantasy_content"]["game"][1]["players"];
-				players.Last.Remove();
+				var playersJson = json["fantasy_content"]["game"][1]["players"];
 
-				// players is now just the player elements; the count has been removed
+				// Remove the count element
+				playersJson.Last.Remove();
 
-				var playerElement = players["0"]["player"][0];
-				playerElement.Last.Remove();
-				playerElement.Last.Remove();
-
-				var hateYahoo = JsonConvert.DeserializeObject<Dictionary<string, Player>>(players.ToString(), new JsonPlayerConverter());
-
-				var playerDes = JsonConvert.DeserializeObject<Player>(playerElement.ToString(), new JsonPlayerConverter());
-
-				// This is going to throw an error.
-				// We probably need to implement a custom JsonConverter
-				// See: http://stackoverflow.com/questions/13067842/json-net-deserialize-nested-arrays-into-strongly-typed-object
-				//		http://stackoverflow.com/questions/8241392/deserializing-heterogenous-json-array-into-covariant-list-using-json-net
-
-				var playerObj = JsonConvert.DeserializeObject<Player>(playerElement.ToString());
-
-				var playersObj = JsonConvert.DeserializeObject<Dictionary<string, PlayerRoot>>(players.ToString());
-
+				var players = JsonConvert.DeserializeObject<Dictionary<string, Player>>(
+					playersJson.ToString(), new JsonPlayerConverter());
 
 				start += count;
 			}
 		}
 
-		public void GetPlayerStats(string playerKey)
-		{
-			var request = new RestRequest("player/{playerKey}/stats_categories", Method.GET);
-			request.AddUrlSegment("playerKey", playerKey);
-			request.AddJsonParam();
-
-			var response = _client.Execute(request);
-			var data = response.Content;
-		}
-
-		public void GetStatCategories(string gameType)
+		public void GetStatCategories()
 		{
 			var request = new RestRequest("game/{gameType}/stat_categories", Method.GET);
-			request.AddUrlSegment("gameType", gameType);
+			request.AddUrlSegment("gameType", _gameType);
 			request.AddJsonParam();
 
 			var response = _client.Execute<FantasyModel>(request);
 			var data = (FantasyModel)response.Data;
+		}
 
-			string b = "bbbb";
+		public void GetStatsByPlayer(string playerId)
+		{
+			var request = new RestRequest("player/{playerId}/stats;type=week;week={week}");
+			request.AddUrlSegment("playerId", playerId);
+			request.AddUrlSegment("week", "7");
+			request.AddJsonParam();
+
+			var response = _client.Execute(request);
+			var data = response.Content;
 		}
 
 		private StatCategories FillStatCategories(string gameType)
@@ -114,12 +115,6 @@ namespace YahooFantasy.Api
 				return data.FantasyContent.Game[1].StatCategories;
 
 			return null;
-		}
-
-		public void Init(string gameType)
-		{
-			_gameType = gameType;
-			StatCategories = FillStatCategories(_gameType);
 		}
 	}
 }
