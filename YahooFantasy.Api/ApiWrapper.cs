@@ -42,7 +42,8 @@ namespace YahooFantasy.Api
 				{ "2010", "242" },
 				{ "2011", "257" },
 				{ "2012", "273" },
-				{ "2013", "300" }
+				{ "2013", "314" },
+				{ "2014", "nfl" }
 			};
 
 		public StatCategories StatCategories { get; set; }
@@ -76,6 +77,49 @@ namespace YahooFantasy.Api
 					request.AddUrlSegment("gameType", _gameType);
 					request.AddUrlSegment("start", start.ToString());
 					request.AddUrlSegment("count", count.ToString());
+					request.AddJsonParam();
+
+					var response = _client.Execute(request);
+					var json = JObject.Parse(response.Content);
+					var playersJson = json["fantasy_content"]["game"][1]["players"];
+
+					// Remove the count element
+					playersJson.Last.Remove();
+
+					var players = JsonConvert.DeserializeObject<Dictionary<string, Player>>(
+						playersJson.ToString(), new JsonPlayerConverter());
+
+					playerList.AddRange(players.Values);
+
+					start += count;
+				}
+				catch
+				{
+					proceed = false;
+				}
+			}
+
+			return playerList;
+		}
+
+		public List<Player> GetPlayersByPosition(string position)
+		{
+			var playerList = new List<Player>();
+
+			int start = 0;
+			int count = 25;
+			var proceed = true;
+
+			while (proceed)
+			{
+				try
+				{
+					var request =
+						new RestRequest("game/{gameType}/players;position={position};start={start};count={count}", Method.GET);
+					request.AddUrlSegment("gameType", _gameType);
+					request.AddUrlSegment("start", start.ToString());
+					request.AddUrlSegment("count", count.ToString());
+					request.AddUrlSegment("position", position);
 					request.AddJsonParam();
 
 					var response = _client.Execute(request);

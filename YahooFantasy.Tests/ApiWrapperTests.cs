@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace YahooFantasy.Tests
 {
@@ -31,7 +32,29 @@ namespace YahooFantasy.Tests
 		{
 			var wrapper = new Api.ApiWrapper("nfl");
 
-			wrapper.GetStatsByPlayer("5479", "2009");
+			wrapper.GetStatsByPlayer("5479", "2013");
 		}
+
+		[TestMethod]
+		public void TestGetWeeklyPlayerStats()
+		{
+			var wrapper = new Api.ApiWrapper("nfl");
+			wrapper.GetWeeklyStatsByPlayer("5479", "2013", 1);
+		}
+
+		//[TestMethod]
+		//public void OutputCompleteStats()
+		//{
+		//	var wrapper = new Api.ApiWrapper("nfl");
+
+		//	var categories = wrapper.GetStatCategories();
+		//	var players = wrapper.GetPlayersByPosition("QB");
+
+		//	var stats = new List<
+		//	foreach(var player in players)
+		//	{
+		//		wrapper.GetStatsByPlayer(player.PlayerId, "2013");
+		//	}
+		//}
 	}
 }
