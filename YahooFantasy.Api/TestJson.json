@@ -1,91 +1,249 @@
-﻿{
-    "fantasy_content": {
-        "xml:lang": "en-US",
-        "yahoo:uri": "\/fantasy\/v2\/game\/nfl\/players;count=1;start=0",
-        "game": [
-            {
-                "game_key": "331",
-                "game_id": "331",
-                "name": "Football",
-                "code": "nfl",
-                "type": "full",
-                "url": "http:\/\/football.fantasysports.yahoo.com\/f1",
-                "season": "2014"
+﻿{  
+   "fantasy_content":{  
+      "xml:lang":"en-US",
+      "yahoo:uri":"\/fantasy\/v2\/player\/314.p.5479\/stats;type=week;week=1",
+      "player":[  
+         [  
+            {  
+               "player_key":"314.p.5479"
             },
-            {
-                "players": {
-                    "0": {
-                        "player": [
-                            [
-                                {
-                                    "player_key": "331.p.8850"
-                                },
-                                {
-                                    "player_id": "8850"
-                                },
-                                {
-                                    "name": {
-                                        "full": "Jamaal Charles",
-                                        "first": "Jamaal",
-                                        "last": "Charles",
-                                        "ascii_first": "Jamaal",
-                                        "ascii_last": "Charles"
-                                    }
-                                },
-                                {
-                                    "editorial_player_key": "nfl.p.8850"
-                                },
-                                {
-                                    "editorial_team_key": "nfl.t.12"
-                                },
-                                {
-                                    "editorial_team_full_name": "Kansas City Chiefs"
-                                },
-                                {
-                                    "editorial_team_abbr": "KC"
-                                },
-                                {
-                                    "bye_weeks": {
-                                        "week": "6"
-                                    }
-                                },
-                                {
-                                    "uniform_number": "25"
-                                },
-                                {
-                                    "display_position": "RB"
-                                },
-                                {
-                                    "headshot": {
-                                        "url": "http:\/\/l.yimg.com\/iu\/api\/res\/1.2\/084uD0cG9qCYdPSjJLX9.A--\/YXBwaWQ9eXZpZGVvO2NoPTg2MDtjcj0xO2N3PTY1OTtkeD0xO2R5PTE7Zmk9dWxjcm9wO2g9NjA7cT0xMDA7dz00Ng--\/http:\/\/l.yimg.com\/j\/assets\/i\/us\/sp\/v\/nfl\/players_l\/20120913\/8850.jpg",
-                                        "size": "small"
-                                    },
-                                    "image_url": "http:\/\/l.yimg.com\/iu\/api\/res\/1.2\/084uD0cG9qCYdPSjJLX9.A--\/YXBwaWQ9eXZpZGVvO2NoPTg2MDtjcj0xO2N3PTY1OTtkeD0xO2R5PTE7Zmk9dWxjcm9wO2g9NjA7cT0xMDA7dz00Ng--\/http:\/\/l.yimg.com\/j\/assets\/i\/us\/sp\/v\/nfl\/players_l\/20120913\/8850.jpg"
-                                },
-                                {
-                                    "is_undroppable": "0"
-                                },
-                                {
-                                    "position_type": "O"
-                                },
-                                {
-                                    "eligible_positions": [
-                                        {
-                                            "position": "RB"
-                                        }
-                                    ]
-                                },
-                                [ ],
-                                [ ]
-                            ]
-                        ]
-                    },
-                    "count": 1
-                }
+            {  
+               "player_id":"5479"
+            },
+            {  
+               "name":{  
+                  "full":"Drew Brees",
+                  "first":"Drew",
+                  "last":"Brees",
+                  "ascii_first":"Drew",
+                  "ascii_last":"Brees"
+               }
+            },
+            {  
+               "editorial_player_key":"nfl.p.5479"
+            },
+            {  
+               "editorial_team_key":"nfl.t.18"
+            },
+            {  
+               "editorial_team_full_name":"New Orleans Saints"
+            },
+            {  
+               "editorial_team_abbr":"NO"
+            },
+            {  
+               "bye_weeks":{  
+                  "week":"7"
+               }
+            },
+            {  
+               "uniform_number":"9"
+            },
+            {  
+               "display_position":"QB"
+            },
+            {  
+               "headshot":{  
+                  "url":"http:\/\/l.yimg.com\/iu\/api\/res\/1.2\/0_dDCjk2MFHhbTV5U174VA--\/YXBwaWQ9eXZpZGVvO2NoPTg2MDtjcj0xO2N3PTY1OTtkeD0xO2R5PTE7Zmk9dWxjcm9wO2g9NjA7cT0xMDA7dz00Ng--\/http:\/\/l.yimg.com\/j\/assets\/i\/us\/sp\/v\/nfl\/players_l\/20120913\/5479.jpg",
+                  "size":"small"
+               },
+               "image_url":"http:\/\/l.yimg.com\/iu\/api\/res\/1.2\/0_dDCjk2MFHhbTV5U174VA--\/YXBwaWQ9eXZpZGVvO2NoPTg2MDtjcj0xO2N3PTY1OTtkeD0xO2R5PTE7Zmk9dWxjcm9wO2g9NjA7cT0xMDA7dz00Ng--\/http:\/\/l.yimg.com\/j\/assets\/i\/us\/sp\/v\/nfl\/players_l\/20120913\/5479.jpg"
+            },
+            {  
+               "is_undroppable":"0"
+            },
+            {  
+               "position_type":"O"
+            },
+            {  
+               "eligible_positions":[  
+                  {  
+                     "position":"QB"
+                  }
+               ]
+            },
+            [  
+
+            ],
+            [  
+
+            ]
+         ],
+         {  
+            "player_stats":{  
+               "0":{  
+                  "coverage_type":"week",
+                  "week":"1"
+               },
+               "stats":[  
+                  {  
+                     "stat":{  
+                        "stat_id":"0",
+                        "value":"1"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"1",
+                        "value":"35"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"2",
+                        "value":"26"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"3",
+                        "value":"9"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"4",
+                        "value":"357"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"5",
+                        "value":"2"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"6",
+                        "value":"1"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"7",
+                        "value":"2"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"8",
+                        "value":"3"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"9",
+                        "value":"2"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"10",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"11",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"12",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"13",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"14",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"15",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"16",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"17",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"18",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"57",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"58",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"59",
+                        "value":"1"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"60",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"61",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"62",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"63",
+                        "value":"0"
+                     }
+                  },
+                  {  
+                     "stat":{  
+                        "stat_id":"64",
+                        "value":"0"
+                     }
+                  }
+               ]
             }
-        ],
-        "time": "215.82293510437ms",
-        "copyright": "Data provided by Yahoo! and STATS, LLC",
-        "refresh_rate": "60"
-    }
+         }
+      ],
+      "time":"904.953956604ms",
+      "copyright":"Data provided by Yahoo! and STATS, LLC",
+      "refresh_rate":"60"
+   }
 }

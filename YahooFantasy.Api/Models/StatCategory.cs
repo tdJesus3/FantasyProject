@@ -2,9 +2,9 @@
 
 namespace YahooFantasy.Api.Models
 {
-	public class Stat
+	public class StatCategory
 	{
 		[DeserializeAs(Name = "stat")]
-		public StatDetail StatDetail { get; set; }
+		public StatCategoryDetail StatDetail { get; set; }
 	}
 }

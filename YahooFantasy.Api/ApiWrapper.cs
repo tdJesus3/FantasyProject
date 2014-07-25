@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using YahooFantasy.Api.JsonConverters;
 using YahooFantasy.Api.Models;
 using YahooFantasy.Api.Models.PlayersModel;
+using YahooFantasy.Api.Models.StatsModel;
 
 namespace YahooFantasy.Api
 {
@@ -145,28 +146,42 @@ namespace YahooFantasy.Api
 			return playerList;
 		}
 
-		public void GetStatsByPlayer(string playerId, string year)
+		public PlayerStats GetStatsByPlayer(string playerId, string year)
 		{
 			// todo: parameter sanity checks
 			string yearKey;
 			if (!_nflGameKeys.TryGetValue(year, out yearKey))
-				return;
+				return null;
 
 			var request = new RestRequest("player/{yearKey}.p.{playerId}/stats");
 			request.AddUrlSegment("yearKey", yearKey);
 			request.AddUrlSegment("playerId", playerId);
 			request.AddJsonParam();
 
-			var response = _client.Execute(request);
-			var data = response.Content;
+			PlayerStats statsObject;
+			try
+			{
+				var response = _client.Execute(request);
+				var json = JObject.Parse(response.Content);
+				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
+				var stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+
+				statsObject = new PlayerStats { Stats = stats };
+			}
+			catch
+			{
+				return null;
+			}
+
+			return statsObject;
 		}
 
-		public void GetWeeklyStatsByPlayer(string playerId, string year, int week)
+		public PlayerStats GetWeeklyStatsByPlayer(string playerId, string year, int week)
 		{
 			// todo: parameter sanity checks
 			string yearKey;
 			if (!_nflGameKeys.TryGetValue(year, out yearKey))
-				return;
+				return null;
 
 			var request = new RestRequest("player/{yearKey}.p.{playerId}/stats;type=week;week={week}");
 			request.AddUrlSegment("yearKey", yearKey);
@@ -175,7 +190,13 @@ namespace YahooFantasy.Api
 			request.AddJsonParam();
 
 			var response = _client.Execute(request);
-			var data = response.Content;
+			var json = JObject.Parse(response.Content);
+			var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
+			var stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+
+			var statsObject = new PlayerStats { Stats = stats };
+
+			return statsObject;
 		}
 
 		/// <summary>

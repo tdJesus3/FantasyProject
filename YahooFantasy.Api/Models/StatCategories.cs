@@ -4,6 +4,6 @@ namespace YahooFantasy.Api.Models
 {
 	public class StatCategories
 	{
-		public List<Stat> Stats { get; set; }
+		public List<StatCategory> Stats { get; set; }
 	}
 }

@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using YahooFantasy.Api.Models.StatsModel;
 
 namespace YahooFantasy.Tests
 {
@@ -39,22 +42,35 @@ namespace YahooFantasy.Tests
 		public void TestGetWeeklyPlayerStats()
 		{
 			var wrapper = new Api.ApiWrapper("nfl");
-			wrapper.GetWeeklyStatsByPlayer("5479", "2013", 1);
+			var stats = wrapper.GetWeeklyStatsByPlayer("5479", "2013", 1);
 		}
 
-		//[TestMethod]
-		//public void OutputCompleteStats()
-		//{
-		//	var wrapper = new Api.ApiWrapper("nfl");
+		[TestMethod]
+		public void OutputCompleteStats()
+		{
+			var wrapper = new Api.ApiWrapper("nfl");
 
-		//	var categories = wrapper.GetStatCategories();
-		//	var players = wrapper.GetPlayersByPosition("QB");
+			var categories = wrapper.GetStatCategories().Stats;
+			var players = wrapper.GetPlayersByPosition("QB");
 
-		//	var stats = new List<
-		//	foreach(var player in players)
-		//	{
-		//		wrapper.GetStatsByPlayer(player.PlayerId, "2013");
-		//	}
-		//}
+			var stats = new List<PlayerStats>();
+
+			foreach(var player in players)
+			{
+				Console.Write("Player: {0} - Position {1}", player.Name.Full, player.PositionType);
+
+				var playerStats = wrapper.GetStatsByPlayer(player.PlayerId, "2013");
+				if (playerStats != null)
+				{
+					foreach (var playerStat in playerStats.Stats.Where(ps => ps.Value != "0"))
+					{
+						var statDetail = categories.FirstOrDefault(c => c.StatDetail.StatId.ToString() == playerStat.StatId);
+						Console.WriteLine("{0} - {1}", statDetail.StatDetail.Name, playerStat.Value);
+					}
+				}
+			}
+
+			Console.ReadLine();
+		}
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace YahooFantasy.Api.Models
 {
-	public class StatDetail
+	public class StatCategoryDetail
 	{
 		[DeserializeAs(Name = "stat_id")]
 		public int StatId { get; set; }
