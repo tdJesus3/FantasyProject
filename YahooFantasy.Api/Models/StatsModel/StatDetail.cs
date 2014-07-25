@@ -6,9 +6,12 @@ using System.Text;
 
 namespace YahooFantasy.Api.Models.StatsModel
 {
-	public class Stat
+	public class StatDetail
 	{
-		[JsonProperty("stat")]
-		public StatDetail StatDetail { get; set; }
+		[JsonProperty("stat_id")]
+		public string StatId { get; set; }
+
+		[JsonProperty("value")]
+		public string Value { get; set; }
 	}
 }

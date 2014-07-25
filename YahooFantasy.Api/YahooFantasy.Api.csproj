@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="ApiWrapper.cs" />
     <Compile Include="JsonConverters\JsonPlayerConverter.cs" />
+    <Compile Include="JsonConverters\JsonStatConverter.cs" />
     <Compile Include="Models\FantasyContent.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\PlayersModel\ByeWeeks.cs" />
@@ -132,15 +133,15 @@
     <Compile Include="Models\PlayersModel\Headshot.cs" />
     <Compile Include="Models\PlayersModel\Player.cs" />
     <Compile Include="Models\PlayersModel\PlayerName.cs" />
-    <Compile Include="Models\PlayerStatsWrapper.cs" />
     <Compile Include="Models\PlayerStatViewModel.cs" />
     <Compile Include="Models\PositionTypes.cs" />
     <Compile Include="Models\StatCategory.cs" />
     <Compile Include="Models\StatCategories.cs" />
     <Compile Include="Models\StatCategoryDetail.cs" />
     <Compile Include="Models\FantasyModel.cs" />
-    <Compile Include="Models\StatsModel\PlayerStats.cs" />
     <Compile Include="Models\StatsModel\Stat.cs" />
+    <Compile Include="Models\StatsModel\StatDetail.cs" />
+    <Compile Include="Models\StatsModel\StatRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

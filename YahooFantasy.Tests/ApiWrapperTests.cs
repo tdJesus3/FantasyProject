@@ -53,24 +53,22 @@ namespace YahooFantasy.Tests
 			var categories = wrapper.GetStatCategories().Stats;
 			var players = wrapper.GetPlayersByPosition("QB");
 
-			var stats = new List<PlayerStats>();
+			var stats = new List<StatRoot>();
 
-			foreach(var player in players)
+			foreach(var player in players.Take(5))
 			{
-				Console.Write("Player: {0} - Position {1}", player.Name.Full, player.PositionType);
+				Console.Write("Player: {0} - Position {1}", player.Name.Full, player.EligiblePositions.FirstOrDefault().Position);
 
 				var playerStats = wrapper.GetStatsByPlayer(player.PlayerId, "2013");
 				if (playerStats != null)
 				{
-					foreach (var playerStat in playerStats.Stats.Where(ps => ps.Value != "0"))
+					foreach (var playerStat in playerStats.Where(ps => ps.StatDetail.Value != "0"))
 					{
-						var statDetail = categories.FirstOrDefault(c => c.StatDetail.StatId.ToString() == playerStat.StatId);
-						Console.WriteLine("{0} - {1}", statDetail.StatDetail.Name, playerStat.Value);
+						var statDetail = categories.FirstOrDefault(c => c.StatDetail.StatId.ToString() == playerStat.StatDetail.StatId);
+						Console.WriteLine("{0} - {1}", statDetail.StatDetail.Name, playerStat.StatDetail.Value);
 					}
 				}
 			}
-
-			Console.ReadLine();
 		}
 	}
 }

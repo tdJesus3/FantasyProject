@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace YahooFantasy.Api.Models.StatsModel
 {
-	public class PlayerStats
+	public class StatRoot
 	{
-		public PlayerStats()
-		{
-			Stats = new List<Stat>();
-		}
-
 		[JsonProperty("stats")]
 		public List<Stat> Stats { get; set; }
 	}

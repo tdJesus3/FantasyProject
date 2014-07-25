@@ -146,7 +146,7 @@ namespace YahooFantasy.Api
 			return playerList;
 		}
 
-		public PlayerStats GetStatsByPlayer(string playerId, string year)
+		public List<Stat> GetStatsByPlayer(string playerId, string year)
 		{
 			// todo: parameter sanity checks
 			string yearKey;
@@ -158,25 +158,23 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("playerId", playerId);
 			request.AddJsonParam();
 
-			PlayerStats statsObject;
+			var stats = new List<Stat>();
 			try
 			{
 				var response = _client.Execute(request);
 				var json = JObject.Parse(response.Content);
 				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
-				var stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
-
-				statsObject = new PlayerStats { Stats = stats };
+				stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
 			}
 			catch
 			{
-				return null;
+				return stats;
 			}
 
-			return statsObject;
+			return stats;
 		}
 
-		public PlayerStats GetWeeklyStatsByPlayer(string playerId, string year, int week)
+		public List<Stat> GetWeeklyStatsByPlayer(string playerId, string year, int week)
 		{
 			// todo: parameter sanity checks
 			string yearKey;
@@ -194,9 +192,7 @@ namespace YahooFantasy.Api
 			var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
 			var stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
 
-			var statsObject = new PlayerStats { Stats = stats };
-
-			return statsObject;
+			return stats;
 		}
 
 		/// <summary>
