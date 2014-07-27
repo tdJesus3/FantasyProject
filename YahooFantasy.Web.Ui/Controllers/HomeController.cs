@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using YahooFantasy.Api;
@@ -96,10 +97,25 @@ namespace YahooFantasy.Web.Ui.Controllers
 					}
 				}
 
-				qbs.Add(qb);
+				if (qb.GamesPlayed > 0)
+				{
+					qbs.Add(qb);
+				}
 			}
 
 			return PartialView("_Players", qbs);
+		}
+
+		private static IEnumerable<string> ToCsv<T>(string separator, IEnumerable<T> objectlist)
+		{
+			var fields = typeof(T).GetFields();
+			var properties = typeof(T).GetProperties();
+			yield return String.Join(separator, fields.Select(f => f.Name).Union(properties.Select(p => p.Name)).ToArray());
+			foreach (var o in objectlist)
+			{
+				yield return string.Join(separator, fields.Select(f => (f.GetValue(o) ?? "").ToString())
+					.Union(properties.Select(p => (p.GetValue(o, null) ?? "").ToString())).ToArray());
+			}
 		}
 	}
 }

@@ -192,9 +192,11 @@
     <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_Players.cshtml" />
+    <Content Include="Views\Home\_Loading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Grid\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
