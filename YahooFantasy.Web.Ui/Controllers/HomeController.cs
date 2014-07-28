@@ -65,6 +65,23 @@ namespace YahooFantasy.Web.Ui.Controllers
 			var players = api.GetPlayersByPosition(filter.SelectedPosition.Key).Take(5);
 			var categories = api.GetStatCategories();
 
+			switch (filter.SelectedPosition.Key)
+			{
+				// todo: branch return model/partial view based on position
+				case "QB":
+					break;
+				case "RB":
+					break;
+				case "WR":
+					break;
+				case "TE":
+					break;
+				case "K":
+					break;
+				case "DST":
+					break;
+			}
+
 			var qbs = new List<QuarterbackAnnualViewModel>();
 
 			foreach (var player in players)
