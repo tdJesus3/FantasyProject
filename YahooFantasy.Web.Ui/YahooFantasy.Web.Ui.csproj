@@ -128,13 +128,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-lumen.css" />
+    <Content Include="Content\bootstrap-lumen.min.css" />
+    <Content Include="Content\bootstrap-simplex.css" />
+    <Content Include="Content\bootstrap-simplex.min.css" />
+    <Content Include="Content\bootstrap-superhero.css" />
+    <Content Include="Content\bootstrap-superhero.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fb_bg.png" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\gridmvc.datepicker.css" />
     <Content Include="Content\gridmvc.datepicker.min.css" />
+    <Content Include="Content\halftone.png" />
     <Content Include="Content\ladda-bootstrap\ladda-themeless.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -193,6 +201,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_Players.cshtml" />
     <Content Include="Views\Home\_Loading.cshtml" />
+    <Content Include="Views\Home\_Search.cshtml" />
+    <Content Include="Views\Home\_Quarterbacks.cshtml" />
+    <Content Include="Views\Home\_Runningbacks.cshtml" />
+    <Content Include="Views\Home\_Receivers.cshtml" />
+    <Content Include="Views\Home\_TightEnds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

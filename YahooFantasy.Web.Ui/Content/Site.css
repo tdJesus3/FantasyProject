@@ -1,12 +1,15 @@
 ﻿body {
 	padding-top: 50px;
 	padding-bottom: 20px;
+	/*background-image: url('fb_bg.png');*/
+	/*background-size: cover;*/
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
 	padding-left: 15px;
 	padding-right: 15px;
+	margin-top: 50px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -14,6 +17,24 @@ input,
 select,
 textarea {
 	max-width: 280px;
+}
+
+.search-label {
+	font-size: 20px;
+	margin-right: 10px;
+}
+
+.grid-table {
+	border: thin lightgray solid;
+	border-radius: 3px;
+}
+
+.grid-table thead {
+	background-color: lightgray;
+}
+
+.selected {
+	background-color: rgba(40, 155, 180, 0.25) !important;
 }
 
 /* Loading animation */

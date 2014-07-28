@@ -62,31 +62,13 @@ namespace YahooFantasy.Web.Ui.Controllers
 		public ActionResult Players(FilterViewModel filter)
 		{
 			var api = new ApiWrapper("nfl");
-			var players = api.GetPlayersByPosition(filter.SelectedPosition.Key).Take(5);
+			var players = api.GetPlayersByPosition(filter.SelectedPosition.Key).Take(25);
 			var categories = api.GetStatCategories();
-
-			switch (filter.SelectedPosition.Key)
-			{
-				// todo: branch return model/partial view based on position
-				case "QB":
-					break;
-				case "RB":
-					break;
-				case "WR":
-					break;
-				case "TE":
-					break;
-				case "K":
-					break;
-				case "DST":
-					break;
-			}
-
-			var qbs = new List<QuarterbackAnnualViewModel>();
+			var playersModel = new List<PlayerAnnualViewModel>();
 
 			foreach (var player in players)
 			{
-				var qb = new QuarterbackAnnualViewModel
+				var playerModel = new PlayerAnnualViewModel
 				{
 					Name = player.Name.Full,
 					Position = player.EligiblePositions.FirstOrDefault().Position,
@@ -95,10 +77,10 @@ namespace YahooFantasy.Web.Ui.Controllers
 
 				var stats = api.GetStatsByPlayer(player.PlayerId, filter.SelectedYear);
 
-				foreach(var stat in stats)
+				foreach (var stat in stats)
 				{
-					var props = qb.GetType().GetProperties();
-					foreach(var prop in props)
+					var props = playerModel.GetType().GetProperties();
+					foreach (var prop in props)
 					{
 						if (prop.CustomAttributes.Any(p => p.AttributeType == typeof(PlayerMappingAttribute)))
 						{
@@ -108,19 +90,40 @@ namespace YahooFantasy.Web.Ui.Controllers
 							if (stat.StatDetail.StatId == statId)
 							{
 								var statValue = Convert.ChangeType(stat.StatDetail.Value, prop.PropertyType);
-								prop.SetValue(qb, statValue);
+								prop.SetValue(playerModel, statValue);
 							}
 						}
 					}
 				}
 
-				if (qb.GamesPlayed > 0)
+				if (playerModel.GamesPlayed > 0)
 				{
-					qbs.Add(qb);
+					playersModel.Add(playerModel);
 				}
 			}
 
-			return PartialView("_Players", qbs);
+			switch (filter.SelectedPosition.Key)
+			{
+				// todo: branch return model/partial view based on position
+				case "QB":
+					return PartialView("_Quarterbacks", playersModel.AsQueryable());
+					break;
+				case "RB":
+					return PartialView("_Runningbacks", playersModel.AsQueryable());
+					break;
+				case "WR":
+					return PartialView("_Receivers", playersModel.AsQueryable());
+					break;
+				case "TE":
+					return PartialView("_TightEnds", playersModel.AsQueryable());
+					break;
+				case "K":
+					break;
+				case "DST":
+					break;
+			}
+
+			return PartialView("_Players", playersModel.AsQueryable());
 		}
 
 		private static IEnumerable<string> ToCsv<T>(string separator, IEnumerable<T> objectlist)

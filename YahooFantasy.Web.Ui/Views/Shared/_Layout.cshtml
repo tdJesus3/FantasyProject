@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using YahooFantasy.Web.Ui.Models
+@model FilterViewModel
+
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
@@ -8,6 +11,8 @@
 	@Scripts.Render("~/bundles/modernizr")
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/grid")
+	@Styles.Render("~/Content/grid")
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top">
@@ -20,13 +25,15 @@
 				</button>
 				@Html.ActionLink("The fantasy project", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 			</div>
+			<div class="collapse navbar-collapse">
+				@{ Html.RenderPartial("_Search", Model); }
+			</div>
 		</div>
 	</div>
 	<div class="container body-content">
 		@RenderBody()
 		<hr />
-		<footer>
-		</footer>
+		<footer></footer>
 	</div>
 </body>
 </html>

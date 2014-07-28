@@ -1,0 +1,16 @@
+﻿@using YahooFantasy.Web.Ui.Models
+
+@model FilterViewModel
+
+@using (Ajax.BeginForm("Players", "Home", new AjaxOptions { UpdateTargetId = "players" }, new { @role = "form", @class = "navbar-form navbar-right" }))
+{
+	<fieldset>
+		@Html.LabelFor(m => m.SelectedYear, new { @class = "search-label" })
+		@Html.DropDownListFor(m => m.SelectedYear, new SelectList(Model.Years), new { @class = "form-control" })
+
+		@Html.LabelFor(m => m.SelectedPosition, new { @class = "search-label" })
+		@Html.DropDownListFor(m => m.SelectedPosition.Key, new SelectList(Model.Positions, "Key", "Name"), new { @class = "form-control" })
+
+		<input type="submit" value="Search" class="btn btn btn-success" data-toggle="modal" data-target="#loading" data-backdrop="static" />
+	</fieldset>
+}

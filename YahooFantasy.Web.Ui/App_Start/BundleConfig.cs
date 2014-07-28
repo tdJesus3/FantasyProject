@@ -25,8 +25,20 @@ namespace YahooFantasy.Web.Ui
 					  "~/Scripts/respond.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
-					  "~/Content/bootstrap-simplex.css",
+					  "~/Content/bootstrap-lumen.css",
 					  "~/Content/site.css"));
+
+			bundles.Add(new ScriptBundle("~/bundles/grid").Include(
+				"~/Scripts/gridmvc.js",
+				//"~/Scripts/gridmvc-ext.js",
+				"~/Scripts/gridmvc.customwidgets.js"//,
+				//"~/Scripts/ladda-bootstrap/ladda.min.js",
+				//"~/Scripts/ladda-bootstrap/spin.min.js"));
+				));
+
+			bundles.Add(new StyleBundle("~/Content/grid").Include(
+				"~/Content/ladda-bootstrap/ladda-themeless.min.css",
+				"~/Content/Gridmvc.css"));
 
 			// Set EnableOptimizations to false for debugging. For more information,
 			// visit http://go.microsoft.com/fwlink/?LinkId=301862

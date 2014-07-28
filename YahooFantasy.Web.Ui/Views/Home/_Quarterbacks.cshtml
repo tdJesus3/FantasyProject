@@ -1,0 +1,39 @@
+﻿@using YahooFantasy.Web.Ui.Models
+@using GridMvc.Html
+@using GridMvc.Pagination
+@using GridMvc.Sorting
+@using GridMvc.Filtering
+
+@model IQueryable<PlayerAnnualViewModel>
+
+@*@Html.Grid(Model).AutoGenerateColumns().Filterable(true).Sortable(true).WithPaging(20);*@
+
+@Html.Grid(Model).Columns(columns =>
+		{
+			columns.Add(m => m.Name);
+			columns.Add(m => m.Position);
+			columns.Add(m => m.Team);
+			columns.Add(m => m.GamesPlayed).Sortable(true).Filterable(true).Titled("GP");
+			columns.Add(m => m.PassingAttempts).Sortable(true).Filterable(true).Titled("Passes");
+			columns.Add(m => m.Completions).Sortable(true).Filterable(true).Titled("Comp");
+			columns.Add(m => m.PassingYards).Sortable(true).Filterable(true).Titled("Pass Yds");
+			columns.Add(m => m.PassingTouchdowns).Sortable(true).Filterable(true).Titled("Pass TD");
+			columns.Add(m => m.Interceptions).Sortable(true).Filterable(true).Titled("Int");
+			columns.Add(m => m.Sacks).Sortable(true).Filterable(true).Titled("Sacks");
+			columns.Add(m => m.RushingAttempts).Sortable(true).Filterable(true).Titled("Rushes");
+			columns.Add(m => m.RushingYards).Sortable(true).Filterable(true).Titled("Rush Yds");
+			columns.Add(m => m.RushingTouchdowns).Sortable(true).Filterable(true).Titled("Rush TD");
+			columns.Add(m => m.TwoPointConversions).Titled("2PC");
+			columns.Add(m => m.Points).Sortable(true).Filterable(true).Format("{0:0.00}");
+			columns.Add(m => m.PointsPerGame).Sortable(true).Filterable(true).Format("{0:0.00}").Titled("PPG");
+		}).WithPaging(15)
+
+<script>
+	$('#loading').modal('hide');
+</script>
+
+<script>
+	$('tr').click(function () {
+		$(this).addClass("selected").siblings().removeClass('selected');
+	});
+</script>

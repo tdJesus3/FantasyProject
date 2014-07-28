@@ -5,23 +5,9 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="well">
-	@using (Ajax.BeginForm("Players", "Home", new AjaxOptions { UpdateTargetId = "players" }, new { @role = "form", @class = "form-inline" }))
-	{
-		<fieldset>
-			@Html.LabelFor(m => m.SelectedYear)
-			@Html.DropDownListFor(m => m.SelectedYear, new SelectList(Model.Years), new { @class = "form-control" })
-
-			@Html.LabelFor(m => m.SelectedPosition)
-			@Html.DropDownListFor(m => m.SelectedPosition.Key, new SelectList(Model.Positions, "Key", "Name"), new { @class = "form-control" })
-
-			<input type="submit" class="btn btn-success" data-toggle="modal" data-target="#loading" data-backdrop="static" />
-		</fieldset>
-	}
-</div>
 
 <div id="players">
-	@{ Html.RenderPartial("_Players", new List<QuarterbackAnnualViewModel>()); }
+	@{ Html.RenderPartial("_Players", new List<PlayerAnnualViewModel>().AsQueryable()); }
 </div>
 
 @{ Html.RenderPartial("_Loading"); }
