@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Models\CustomAttributes\PlayerMappingAttribute.cs" />
     <Compile Include="Models\FilterViewModel.cs" />
+    <Compile Include="Models\Grids\PlayersGrid.cs" />
     <Compile Include="Models\PlayerAnnualViewModel.cs" />
     <Compile Include="Models\PositionViewModel.cs" />
     <Compile Include="Models\QuarterbackAnnualViewModel.cs" />

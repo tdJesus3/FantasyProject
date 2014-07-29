@@ -1,14 +1,14 @@
-﻿@using YahooFantasy.Web.Ui.Models
+﻿@using YahooFantasy.Web.Ui.Models.Grids
 @using GridMvc.Html
 @using GridMvc.Pagination
 @using GridMvc.Sorting
 @using GridMvc.Filtering
 
-@model IQueryable<PlayerAnnualViewModel>
+@model PlayersGrid
 
 @*@Html.Grid(Model).AutoGenerateColumns().Filterable(true).Sortable(true).WithPaging(20);*@
 
-@Html.Grid(Model).Columns(columns =>
+@Html.Grid(Model).Named("playersGrid").Columns(columns =>
 		{
 			columns.Add(m => m.Name);
 			columns.Add(m => m.Position);
@@ -36,4 +36,8 @@
 	$('tr').click(function () {
 		$(this).addClass("selected").siblings().removeClass('selected');
 	});
+</script>
+
+<script>
+	$(".grid-mvc").gridmvc();
 </script>

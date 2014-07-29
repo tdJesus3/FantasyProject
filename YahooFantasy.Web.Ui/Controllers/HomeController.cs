@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using YahooFantasy.Api;
 using YahooFantasy.Web.Ui.Models;
 using YahooFantasy.Web.Ui.Models.CustomAttributes;
+using YahooFantasy.Web.Ui.Models.Grids;
 
 namespace YahooFantasy.Web.Ui.Controllers
 {
@@ -58,6 +59,11 @@ namespace YahooFantasy.Web.Ui.Controllers
 			return View(filter);
 		}
 
+		public ActionResult Players()
+		{
+			return PartialView("_Players", new List<PlayerAnnualViewModel>().AsQueryable());
+		}
+
 		[HttpPost]
 		public ActionResult Players(FilterViewModel filter)
 		{
@@ -106,7 +112,7 @@ namespace YahooFantasy.Web.Ui.Controllers
 			{
 				// todo: branch return model/partial view based on position
 				case "QB":
-					return PartialView("_Quarterbacks", playersModel.AsQueryable());
+					return PartialView("_Quarterbacks", new PlayersGrid(playersModel.AsQueryable()));
 					break;
 				case "RB":
 					return PartialView("_Runningbacks", playersModel.AsQueryable());
@@ -123,7 +129,7 @@ namespace YahooFantasy.Web.Ui.Controllers
 					break;
 			}
 
-			return PartialView("_Players", playersModel.AsQueryable());
+			return PartialView("_Players", new PlayersGrid(playersModel.AsQueryable()));
 		}
 
 		private static IEnumerable<string> ToCsv<T>(string separator, IEnumerable<T> objectlist)
