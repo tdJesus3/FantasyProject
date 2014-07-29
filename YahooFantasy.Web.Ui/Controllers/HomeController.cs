@@ -7,12 +7,38 @@ using System.Web.Mvc;
 using YahooFantasy.Api;
 using YahooFantasy.Web.Ui.Models;
 using YahooFantasy.Web.Ui.Models.CustomAttributes;
-using YahooFantasy.Web.Ui.Models.Grids;
+using Mvc.JQuery.Datatables;
 
 namespace YahooFantasy.Web.Ui.Controllers
 {
 	public class HomeController : Controller
 	{
+		#region Session facade
+		public FilterViewModel PlayerFilter
+		{
+			get
+			{
+				return (FilterViewModel)HttpContext.Session["Filter"];
+			}
+			set
+			{
+				HttpContext.Session["Filter"] = (FilterViewModel)value;
+			}
+		}
+
+		public IQueryable<PlayerAnnualViewModel> PlayerData
+		{
+			get
+			{
+				return (IQueryable<PlayerAnnualViewModel>)HttpContext.Session["PlayerData"];
+			}
+			set
+			{
+				HttpContext.Session["PlayerData"] = (IQueryable<PlayerAnnualViewModel>)value;
+			}
+		}
+		#endregion
+
 		public ActionResult Index()
 		{
 			var filter = new FilterViewModel
@@ -59,14 +85,40 @@ namespace YahooFantasy.Web.Ui.Controllers
 			return View(filter);
 		}
 
-		public ActionResult Players()
+		//public ActionResult Players(FilterViewModel filter = null)
+		//{
+		//	var playersData = new PlayersGrid(GetPlayerData(filter));
+
+		//	return PartialView("_Players", playersData);
+		//}
+
+		public DataTablesResult<PlayerAnnualViewModel> GetPlayers(DataTablesParam param, FilterViewModel filter)
 		{
-			return PartialView("_Players", new List<PlayerAnnualViewModel>().AsQueryable());
+			if(filter != null && filter.SelectedYear != null)
+			{
+				PlayerFilter = filter;
+			}
+
+			var players = GetPlayerData(filter ?? PlayerFilter);
+			return DataTablesResult.Create(players, param);
 		}
 
-		[HttpPost]
-		public ActionResult Players(FilterViewModel filter)
+		private IQueryable<PlayerAnnualViewModel> GetPlayerData(FilterViewModel filter)
 		{
+			if (PlayerFilter != null && (filter == null || filter.SelectedYear == null))
+			{
+				filter = PlayerFilter;
+			}
+			else
+			{
+				PlayerFilter = filter;
+			}
+
+			if(filter == null || filter.SelectedYear == null)
+			{
+				return new List<PlayerAnnualViewModel>().AsQueryable();
+			}
+
 			var api = new ApiWrapper("nfl");
 			var players = api.GetPlayersByPosition(filter.SelectedPosition.Key).Take(25);
 			var categories = api.GetStatCategories();
@@ -108,30 +160,10 @@ namespace YahooFantasy.Web.Ui.Controllers
 				}
 			}
 
-			switch (filter.SelectedPosition.Key)
-			{
-				// todo: branch return model/partial view based on position
-				case "QB":
-					return PartialView("_Quarterbacks", new PlayersGrid(playersModel.AsQueryable()));
-					break;
-				case "RB":
-					return PartialView("_Runningbacks", playersModel.AsQueryable());
-					break;
-				case "WR":
-					return PartialView("_Receivers", playersModel.AsQueryable());
-					break;
-				case "TE":
-					return PartialView("_TightEnds", playersModel.AsQueryable());
-					break;
-				case "K":
-					break;
-				case "DST":
-					break;
-			}
-
-			return PartialView("_Players", new PlayersGrid(playersModel.AsQueryable()));
+			return playersModel.AsQueryable();
 		}
 
+		#region File methods
 		private static IEnumerable<string> ToCsv<T>(string separator, IEnumerable<T> objectlist)
 		{
 			var fields = typeof(T).GetFields();
@@ -143,5 +175,6 @@ namespace YahooFantasy.Web.Ui.Controllers
 					.Union(properties.Select(p => (p.GetValue(o, null) ?? "").ToString())).ToArray());
 			}
 		}
+		#endregion
 	}
 }

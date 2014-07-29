@@ -2,7 +2,7 @@
 
 @model FilterViewModel
 
-@using (Ajax.BeginForm("Players", "Home", new AjaxOptions { UpdateTargetId = "players" }, new { @role = "form", @class = "navbar-form navbar-right" }))
+@using (Ajax.BeginForm("GetPlayers", "Home", new AjaxOptions { UpdateTargetId = "players" }, new { @role = "form", @class = "navbar-form navbar-right" }))
 {
 	<fieldset>
 		@Html.LabelFor(m => m.SelectedYear, new { @class = "search-label" })
