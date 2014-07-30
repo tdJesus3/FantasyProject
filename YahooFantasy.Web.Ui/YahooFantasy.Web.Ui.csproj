@@ -266,6 +266,14 @@
       <Project>{7bf0c61f-8e4f-465d-887f-0ef8025eee10}</Project>
       <Name>YahooFantasy.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YahooFantasy.Data\YahooFantasy.Data.csproj">
+      <Project>{85be03f9-ea0a-43a8-a5c3-218b2a1e4892}</Project>
+      <Name>YahooFantasy.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YahooFantasy.Models\YahooFantasy.Models.csproj">
+      <Project>{e158c553-418f-4c98-8b21-bf0b388f3386}</Project>
+      <Name>YahooFantasy.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

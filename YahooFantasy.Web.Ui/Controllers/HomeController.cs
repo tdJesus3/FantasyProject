@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using YahooFantasy.Api;
 using YahooFantasy.Web.Ui.Models;
 using YahooFantasy.Web.Ui.Models.CustomAttributes;
-using Mvc.JQuery.Datatables;
 
 namespace YahooFantasy.Web.Ui.Controllers
 {
@@ -92,16 +91,16 @@ namespace YahooFantasy.Web.Ui.Controllers
 		//	return PartialView("_Players", playersData);
 		//}
 
-		public DataTablesResult<PlayerAnnualViewModel> GetPlayers(DataTablesParam param, FilterViewModel filter)
-		{
-			if(filter != null && filter.SelectedYear != null)
-			{
-				PlayerFilter = filter;
-			}
+		//public DataTablesResult<PlayerAnnualViewModel> GetPlayers(DataTablesParam param, FilterViewModel filter)
+		//{
+		//	if(filter != null && filter.SelectedYear != null)
+		//	{
+		//		PlayerFilter = filter;
+		//	}
 
-			var players = GetPlayerData(filter ?? PlayerFilter);
-			return DataTablesResult.Create(players, param);
-		}
+		//	var players = GetPlayerData(filter ?? PlayerFilter);
+		//	return DataTablesResult.Create(players, param);
+		//}
 
 		private IQueryable<PlayerAnnualViewModel> GetPlayerData(FilterViewModel filter)
 		{

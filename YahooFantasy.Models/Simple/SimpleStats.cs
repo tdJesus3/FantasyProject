@@ -16,6 +16,12 @@ namespace YahooFantasy.Models.Simple
 
 		public int? GamesPlayed { get; set; }
 
+		public string TeamName { get; set; }
+
+		public string TeamAbbreviation { get; set; }
+
+		public SimplePositionTypes Position { get; set; }
+
 		#region Offensive stats
 		public int FumblesLost { get; set; }
 
