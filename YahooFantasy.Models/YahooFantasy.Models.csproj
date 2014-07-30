@@ -39,8 +39,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\EntityBase.cs" />
+    <Compile Include="Base\INamedEntity.cs" />
+    <Compile Include="Players\Kicker.cs" />
+    <Compile Include="Players\PlayersBase\NonQuarterbackBase.cs" />
+    <Compile Include="Players\PlayersBase\OffensivePlayerBase.cs" />
+    <Compile Include="Players\PlayersBase\PlayerBase.cs" />
+    <Compile Include="Players\Quarterback.cs" />
+    <Compile Include="Players\Receiver.cs" />
+    <Compile Include="Players\Runningback.cs" />
+    <Compile Include="Players\TightEnd.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Position.cs" />
+    <Compile Include="Simple\SimplePlayer.cs" />
+    <Compile Include="Simple\SimpleStats.cs" />
+    <Compile Include="Stats\IntervalTypes.cs" />
+    <Compile Include="Stats\StatInterval.cs" />
+    <Compile Include="Teams\Team.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
