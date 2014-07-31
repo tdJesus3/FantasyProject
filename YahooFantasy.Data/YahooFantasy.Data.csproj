@@ -49,6 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FantasyContext.cs" />
+    <Compile Include="Migrations\201407310406050_KickerStats.cs" />
+    <Compile Include="Migrations\201407310406050_KickerStats.Designer.cs">
+      <DependentUpon>201407310406050_KickerStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +65,11 @@
       <Project>{e158c553-418f-4c98-8b21-bf0b388f3386}</Project>
       <Name>YahooFantasy.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201407310406050_KickerStats.resx">
+      <DependentUpon>201407310406050_KickerStats.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

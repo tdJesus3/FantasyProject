@@ -99,6 +99,44 @@ namespace YahooFantasy.Web.Ui.Models
 		public int FumblesLost { get; set; }
 		#endregion
 
+		#region Kicker stats
+		[PlayerMappingAttribute("20")]
+		public int MadeFieldGoals_Zero { get; set; }
+
+		[PlayerMappingAttribute("21")]
+		public int MadeFieldGoals_Twenty { get; set; }
+
+		[PlayerMappingAttribute("22")]
+		public int MadeFieldGoals_Thirty { get; set; }
+
+		[PlayerMappingAttribute("23")]
+		public int MadeFieldGoals_Forty { get; set; }
+
+		[PlayerMappingAttribute("24")]
+		public int MadeFieldGoals_Fifty { get; set; }
+
+		[PlayerMappingAttribute("25")]
+		public int MissedFieldGoals_Zero { get; set; }
+
+		[PlayerMappingAttribute("26")]
+		public int MissedFieldGoals_Twenty { get; set; }
+
+		[PlayerMappingAttribute("27")]
+		public int MissedFieldGoals_Thirty { get; set; }
+
+		[PlayerMappingAttribute("28")]
+		public int MissedFieldGoals_Forty { get; set; }
+
+		[PlayerMappingAttribute("29")]
+		public int MissedFieldGoals_Fifty { get; set; }
+
+		[PlayerMappingAttribute("30")]
+		public int ExtraPointsMade { get; set; }
+
+		[PlayerMappingAttribute("31")]
+		public int ExtraPointsMissed { get; set; }
+		#endregion
+
 		#region Points
 		[Display(Name = "Points")]
 		public decimal Points

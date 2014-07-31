@@ -9,21 +9,27 @@ namespace YahooFantasy.Models.Simple
 {
 	public enum SimplePlayerTypes
 	{
-		OffensivePlayer,
-		Kicker,
-		TeamDefense,
-		DefensivePlayer
+		Unknown = 0,
+		OffensivePlayer = 1,
+		Kicker = 2,
+		TeamDefense = 3,
+		DefensivePlayer = 4
 	}
 
 	public enum SimplePositionTypes
 	{
-		Quarterback,
-		Runningback,
-		Receiver,
-		TightEnd,
-		Kicker,
-		DefensivePlayer,
-		TeamDefense
+		Unknown = 0,
+		Quarterback = 1,
+		Runningback = 2,
+		Receiver = 3,
+		TightEnd = 4,
+		Kicker = 5,
+		TeamDefense = 6,
+		Cornerback = 7,
+		DefensiveTackle = 8,
+		Safety = 9,
+		Linebacker = 10,
+		DefensiveEnd = 11
 	}
 
 	public class SimplePlayer

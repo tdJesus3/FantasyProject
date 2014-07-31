@@ -174,6 +174,45 @@ namespace YahooFantasy.Api
 			return stats;
 		}
 
+		public StatWrapper GetStatDataByPlayer(string playerId, string year)
+		{
+			// todo: parameter sanity checks
+			string yearKey;
+			if (!_nflGameKeys.TryGetValue(year, out yearKey))
+				return null;
+
+			var request = new RestRequest("player/{yearKey}.p.{playerId}/stats");
+			request.AddUrlSegment("yearKey", yearKey);
+			request.AddUrlSegment("playerId", playerId);
+			request.AddJsonParam();
+
+			var stats = new List<Stat>();
+			var statWrapper = new StatWrapper();
+			try
+			{
+				var response = _client.Execute(request);
+				var json = JObject.Parse(response.Content);
+
+				var team = json["fantasy_content"]["player"][0][5]["editorial_team_full_name"];
+				var teamAbbr = json["fantasy_content"]["player"][0][6]["editorial_team_abbr"];
+				var position = json["fantasy_content"]["player"][0][9]["display_position"];
+				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
+
+				stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+
+				statWrapper.Position = position.ToString();
+				statWrapper.Team = team.ToString();
+				statWrapper.TeamAbbr = teamAbbr.ToString();
+				statWrapper.Stats = stats;
+			}
+			catch
+			{
+				throw;
+			}
+
+			return statWrapper;
+		}
+
 		public List<Stat> GetWeeklyStatsByPlayer(string playerId, string year, int week)
 		{
 			// todo: parameter sanity checks
