@@ -186,26 +186,44 @@ namespace YahooFantasy.Tests
 		public void TestFillAnnualStatsForOffensivePlayers()
 		{
 			var wrapper = new Api.ApiWrapper("nfl");
-			var players = new List<SimplePlayer>();
 
 			using (var context = new FantasyContext())
 			{
-				players = context.Players.ToList();
+				var players = context.Players.ToList();
+				var playerStats = context.Stats.ToList();
 
 				var years = Enumerable.Range(2001, 13).OrderByDescending(i => i).ToList();
+				var positions = new List<SimplePositionTypes>
+				{
+					SimplePositionTypes.Quarterback,
+					SimplePositionTypes.Runningback,
+					SimplePositionTypes.Receiver,
+					SimplePositionTypes.TightEnd,
+					SimplePositionTypes.Kicker
+				};
 
-				foreach (var player in players)
+				var validPlayers = from pl in players
+								   join po in positions
+								   on pl.PrimaryPosition equals po
+								   select pl;
+
+				foreach (var player in validPlayers)
 				{
 					foreach (var year in years)
 					{
-						StatWrapper stats;
+						var shouldPull = !playerStats.Any(ps => ps.Player.YahooPlayerId == player.YahooPlayerId &&
+							ps.Year.Year == year);
+
+						if (!shouldPull) continue;
+
+						var stats = new StatWrapper();
 						try
 						{
 							stats = wrapper.GetStatDataByPlayer(player.YahooPlayerId.ToString(), year.ToString());
 						}
 						catch
 						{
-							continue;
+							if (stats.Stats == null) continue;
 						}
 
 						if (stats != null)

@@ -140,6 +140,7 @@
     <Compile Include="Models\FantasyModel.cs" />
     <Compile Include="Models\StatsModel\Stat.cs" />
     <Compile Include="Models\StatsModel\StatDetail.cs" />
+    <Compile Include="Models\StatsModel\StatPlayerData.cs" />
     <Compile Include="Models\StatsModel\StatRoot.cs" />
     <Compile Include="Models\StatsModel\StatWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

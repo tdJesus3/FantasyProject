@@ -4,6 +4,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using YahooFantasy.Api.JsonConverters;
 using YahooFantasy.Api.Models;
 using YahooFantasy.Api.Models.PlayersModel;
@@ -193,16 +194,20 @@ namespace YahooFantasy.Api
 				var response = _client.Execute(request);
 				var json = JObject.Parse(response.Content);
 
-				var team = json["fantasy_content"]["player"][0][5]["editorial_team_full_name"];
-				var teamAbbr = json["fantasy_content"]["player"][0][6]["editorial_team_abbr"];
-				var position = json["fantasy_content"]["player"][0][9]["display_position"];
+				var statMetadataJson = json["fantasy_content"]["player"][0];
+				var statMetadata = JsonConvert.DeserializeObject<List<Tuple<string, string>>>(statMetadataJson.ToString());
+				
+				var teamName = statMetadata.FirstOrDefault(tup => tup.Item1 == "editorial_team_full_name").Item2;
+				var teamAbbreviation = statMetadata.FirstOrDefault(tup => tup.Item1 == "editorial_team_abbr").Item2;
+				var playerPosition = statMetadata.FirstOrDefault(tup => tup.Item1 == "display_position").Item2;
+
 				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
 
 				stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
 
-				statWrapper.Position = position.ToString();
-				statWrapper.Team = team.ToString();
-				statWrapper.TeamAbbr = teamAbbr.ToString();
+				statWrapper.Position = playerPosition;
+				statWrapper.Team = teamName;
+				statWrapper.TeamAbbr = teamAbbreviation;
 				statWrapper.Stats = stats;
 			}
 			catch
