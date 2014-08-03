@@ -49,9 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FantasyContext.cs" />
-    <Compile Include="Migrations\201407310406050_KickerStats.cs" />
-    <Compile Include="Migrations\201407310406050_KickerStats.Designer.cs">
-      <DependentUpon>201407310406050_KickerStats.cs</DependentUpon>
+    <Compile Include="Migrations\201408032012138_Initial.cs" />
+    <Compile Include="Migrations\201408032012138_Initial.Designer.cs">
+      <DependentUpon>201408032012138_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,8 +67,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201407310406050_KickerStats.resx">
-      <DependentUpon>201407310406050_KickerStats.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201408032012138_Initial.resx">
+      <DependentUpon>201408032012138_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

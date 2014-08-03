@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using YahooFantasy.Api.Models.StatsModel;
 using YahooFantasy.Data;
@@ -192,14 +193,15 @@ namespace YahooFantasy.Tests
 				var players = context.Players.ToList();
 				var playerStats = context.Stats.ToList();
 
-				var years = Enumerable.Range(2001, 13).OrderByDescending(i => i).ToList();
+				//var years = Enumerable.Range(2001, 13).OrderByDescending(i => i).ToList();
+				var years = Enumerable.Range(2013, 13).OrderByDescending(i => i).ToList();
 				var positions = new List<SimplePositionTypes>
 				{
-					SimplePositionTypes.Quarterback,
+					//SimplePositionTypes.Quarterback,
 					SimplePositionTypes.Runningback,
-					SimplePositionTypes.Receiver,
-					SimplePositionTypes.TightEnd,
-					SimplePositionTypes.Kicker
+					SimplePositionTypes.Receiver//,
+					//SimplePositionTypes.TightEnd,
+					//SimplePositionTypes.Kicker
 				};
 
 				var validPlayers = from pl in players
@@ -307,6 +309,104 @@ namespace YahooFantasy.Tests
 
 							context.Stats.Add(simpleStat);
 							context.SaveChanges();
+						}
+					}
+				}
+			}
+		}
+
+		[TestMethod]
+		public void TestFillWeeklyStatsForOffensivePlayers()
+		{
+			var wrapper = new Api.ApiWrapper("nfl");
+
+			using (var context = new FantasyContext())
+			{
+				var players = context.Players.ToList();
+				var playerStats = context.Stats.ToList();
+
+				//var years = Enumerable.Range(2001, 13).OrderByDescending(i => i).ToList();
+				var years = Enumerable.Range(2013, 1).OrderByDescending(i => i).ToList();
+				var weeks = Enumerable.Range(1, 17).ToList();
+
+				var positions = new List<SimplePositionTypes>
+				{
+					//SimplePositionTypes.Quarterback,
+					SimplePositionTypes.Runningback,
+					SimplePositionTypes.Receiver//,
+					//SimplePositionTypes.TightEnd,
+					//SimplePositionTypes.Kicker
+				};
+
+				var validPlayers = from pl in players
+								   join po in positions
+								   on pl.PrimaryPosition equals po
+								   select pl;
+
+				foreach (var player in validPlayers)
+				{
+					foreach (var year in years)
+					{
+						foreach (var week in weeks)
+						{
+							var shouldPull = !playerStats.Any(ps => ps.Player.YahooPlayerId == player.YahooPlayerId &&
+								ps.Year.Year == year && ps.Week == week);
+
+							if (!shouldPull) continue;
+
+							var stats = new StatWrapper();
+							try
+							{
+								stats = wrapper.GetWeeklyStatsByPlayer(player.YahooPlayerId.ToString(), year.ToString(), week);
+							}
+							catch
+							{
+								if (stats.Stats == null) continue;
+							}
+
+							if (stats != null)
+							{
+								var simpleStat = new SimpleStats
+								{
+									Player = player,
+									Year = new DateTime(year, 1, 1),
+									Week = week,
+									TeamName = stats.Team,
+									TeamAbbreviation = stats.TeamAbbr,
+									Position = player.PrimaryPosition
+								};
+
+								foreach (var stat in stats.Stats)
+								{
+									var props = simpleStat.GetType().GetProperties();
+									foreach (var prop in props)
+									{
+										if (prop.CustomAttributes.Any(p => p.AttributeType == typeof(PlayerMappingAttribute)))
+										{
+											var attr = prop.GetCustomAttributes(typeof(PlayerMappingAttribute), false).FirstOrDefault();
+											var statId = ((PlayerMappingAttribute)attr).YahooStatId;
+
+											if (stat.StatDetail.StatId == statId)
+											{
+												if (prop.PropertyType == typeof(int?))
+												{
+													int nullableValue = 0;
+													int.TryParse(stat.StatDetail.Value, out nullableValue);
+													prop.SetValue(simpleStat, nullableValue);
+												}
+												else
+												{
+													var statValue = Convert.ChangeType(stat.StatDetail.Value, prop.PropertyType);
+													prop.SetValue(simpleStat, statValue);
+												}
+											}
+										}
+									}
+								}
+
+								context.Stats.Add(simpleStat);
+								context.SaveChanges();
+							}
 						}
 					}
 				}

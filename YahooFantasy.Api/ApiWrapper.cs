@@ -196,7 +196,7 @@ namespace YahooFantasy.Api
 
 				var statMetadataJson = json["fantasy_content"]["player"][0];
 				var statMetadata = JsonConvert.DeserializeObject<List<Tuple<string, string>>>(statMetadataJson.ToString());
-				
+
 				var teamName = statMetadata.FirstOrDefault(tup => tup.Item1 == "editorial_team_full_name").Item2;
 				var teamAbbreviation = statMetadata.FirstOrDefault(tup => tup.Item1 == "editorial_team_abbr").Item2;
 				var playerPosition = statMetadata.FirstOrDefault(tup => tup.Item1 == "display_position").Item2;
@@ -218,7 +218,7 @@ namespace YahooFantasy.Api
 			return statWrapper;
 		}
 
-		public List<Stat> GetWeeklyStatsByPlayer(string playerId, string year, int week)
+		public StatWrapper GetWeeklyStatsByPlayer(string playerId, string year, int week)
 		{
 			// todo: parameter sanity checks
 			string yearKey;
@@ -231,12 +231,35 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("week", week.ToString());
 			request.AddJsonParam();
 
-			var response = _client.Execute(request);
-			var json = JObject.Parse(response.Content);
-			var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
-			var stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+			var stats = new List<Stat>();
+			var statWrapper = new StatWrapper();
 
-			return stats;
+			try
+			{
+				var response = _client.Execute(request);
+				var json = JObject.Parse(response.Content);
+
+				//var statMetadataJson = json["fantasy_content"]["player"][0];
+				//var statMetadata = JsonConvert.DeserializeObject<StatPlayerData>(statMetadataJson.ToString());
+
+				//var teamName = statMetadata.TeamFullName;
+				//var teamAbbreviation = statMetadata.TeamAbbreviation;
+				//var playerPosition = statMetadata.DisplayPosition;
+				
+				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
+				stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+
+				statWrapper.Position = "";
+				statWrapper.Team = "";
+				statWrapper.TeamAbbr = "";
+				statWrapper.Stats = stats;
+			}
+			catch
+			{
+				throw;
+			}
+
+			return statWrapper;
 		}
 
 		/// <summary>
