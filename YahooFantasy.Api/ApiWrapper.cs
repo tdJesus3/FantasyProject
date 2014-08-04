@@ -245,14 +245,29 @@ namespace YahooFantasy.Api
 				//var teamName = statMetadata.TeamFullName;
 				//var teamAbbreviation = statMetadata.TeamAbbreviation;
 				//var playerPosition = statMetadata.DisplayPosition;
-				
-				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
-				stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
 
-				statWrapper.Position = "";
-				statWrapper.Team = "";
-				statWrapper.TeamAbbr = "";
-				statWrapper.Stats = stats;
+				try
+				{
+					var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
+					stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+
+					statWrapper.Position = "";
+					statWrapper.Team = "";
+					statWrapper.TeamAbbr = "";
+					statWrapper.Stats = stats;
+				}
+				catch
+				{
+					if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+					{
+						var playerKey = yearKey + ".p." + playerId;
+						var errorDescription = json["error"]["description"].Value<string>();
+						if (errorDescription == "Player key '" + playerKey + "' does not exist.")
+						{
+							throw new KeyNotFoundException("Player key " + playerKey + " does not exist.");
+						}
+					}
+				}
 			}
 			catch
 			{

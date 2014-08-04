@@ -359,6 +359,18 @@ namespace YahooFantasy.Tests
 							{
 								stats = wrapper.GetWeeklyStatsByPlayer(player.YahooPlayerId.ToString(), year.ToString(), week);
 							}
+							catch (KeyNotFoundException ex)
+							{
+								var noStat = new NoStats
+								{
+									Player = player,
+									Week = week,
+									Year = year
+								};
+								context.NoStats.Add(noStat);
+								context.SaveChanges();
+								continue;
+							}
 							catch
 							{
 								if (stats.Stats == null) continue;
