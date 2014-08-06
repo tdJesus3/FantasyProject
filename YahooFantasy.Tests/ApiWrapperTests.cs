@@ -324,9 +324,10 @@ namespace YahooFantasy.Tests
 			{
 				var players = context.Players.ToList();
 				var playerStats = context.Stats.ToList();
+				var noStats = context.NoStats.ToList();
 
 				//var years = Enumerable.Range(2001, 13).OrderByDescending(i => i).ToList();
-				var years = Enumerable.Range(2013, 1).OrderByDescending(i => i).ToList();
+				var years = Enumerable.Range(2012, 1).OrderByDescending(i => i).ToList();
 				var weeks = Enumerable.Range(1, 17).ToList();
 
 				var positions = new List<SimplePositionTypes>
@@ -349,8 +350,11 @@ namespace YahooFantasy.Tests
 					{
 						foreach (var week in weeks)
 						{
-							var shouldPull = !playerStats.Any(ps => ps.Player.YahooPlayerId == player.YahooPlayerId &&
-								ps.Year.Year == year && ps.Week == week);
+							var shouldPull =
+								!playerStats.Any(ps => ps.Player.YahooPlayerId == player.YahooPlayerId &&
+									ps.Year.Year == year && ps.Week == week) &&
+									!noStats.Any(ns => ns.Player == player &&
+										ns.Week == week && ns.Year == year);
 
 							if (!shouldPull) continue;
 
@@ -373,8 +377,10 @@ namespace YahooFantasy.Tests
 							}
 							catch
 							{
-								if (stats.Stats == null) continue;
+								continue;
 							}
+
+							if (stats.Stats == null) continue;
 
 							if (stats != null)
 							{
@@ -383,9 +389,9 @@ namespace YahooFantasy.Tests
 									Player = player,
 									Year = new DateTime(year, 1, 1),
 									Week = week,
-									TeamName = stats.Team,
-									TeamAbbreviation = stats.TeamAbbr,
-									Position = player.PrimaryPosition
+									TeamName = stats.Team ?? "",
+									TeamAbbreviation = stats.TeamAbbr ?? "",
+									Position = player.PrimaryPosition == null ? 0 : player.PrimaryPosition
 								};
 
 								foreach (var stat in stats.Stats)

@@ -267,6 +267,10 @@ namespace YahooFantasy.Api
 							throw new KeyNotFoundException("Player key " + playerKey + " does not exist.");
 						}
 					}
+					//if(response.ToString().Contains("999 Unable to process"))
+					//{
+					//	throw new Exception
+					//}
 				}
 			}
 			catch
