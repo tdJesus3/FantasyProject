@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using YahooFantasy.Api.Models.StatsModel;
 using YahooFantasy.Data;
 using YahooFantasy.Models.Simple;
@@ -332,11 +335,11 @@ namespace YahooFantasy.Tests
 
 				var positions = new List<SimplePositionTypes>
 				{
-					//SimplePositionTypes.Quarterback,
+					SimplePositionTypes.Quarterback,
 					SimplePositionTypes.Runningback,
-					SimplePositionTypes.Receiver//,
-					//SimplePositionTypes.TightEnd,
-					//SimplePositionTypes.Kicker
+					SimplePositionTypes.Receiver,
+					SimplePositionTypes.TightEnd,
+					SimplePositionTypes.Kicker
 				};
 
 				var validPlayers = from pl in players
@@ -428,6 +431,36 @@ namespace YahooFantasy.Tests
 						}
 					}
 				}
+			}
+		}
+
+		[TestMethod]
+		public void TestFillAdpData()
+		{
+			root data;
+			using (var context = new FantasyContext())
+			{
+				var reader = new XmlSerializer(typeof(root));
+				using (var file = new StreamReader(@"C:\Users\codyf_000\Documents\Visual Studio 2013\Projects\YahooFantasy\YahooFantasy.Tests\adp_xml_2011.xml"))
+				{
+					data = (root)reader.Deserialize(file);
+				}
+
+				var adpData = data.adp_data.Select(d => new Adp
+				{
+					PlayerName = d.name,
+					TimesDrafted = d.times_drafted,
+					OverallAdp = d.adp_overall,
+					Position = d.pos,
+					Team = d.team
+				});
+
+				var adpList = adpData.ToList();
+				var year = DateTime.Parse(data.adp_info.start_date).Year;
+				
+				adpList.ForEach(a => a.Year = 2012);
+				adpList.ForEach(a => context.Drafts.Add(a));
+				context.SaveChanges();
 			}
 		}
 	}

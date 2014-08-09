@@ -45,6 +45,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -60,9 +63,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ApiWrapperTests.cs" />
+    <Compile Include="FfcAdp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DraftTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ffc.Scraper\Ffc.Scraper.csproj">
+      <Project>{cc891dd3-d585-4ede-b2bc-3a1db1972af0}</Project>
+      <Name>Ffc.Scraper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YahooFantasy.Api\YahooFantasy.Api.csproj">
       <Project>{7bf0c61f-8e4f-465d-887f-0ef8025eee10}</Project>
       <Name>YahooFantasy.Api</Name>

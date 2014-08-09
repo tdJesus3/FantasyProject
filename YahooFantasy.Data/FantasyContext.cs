@@ -19,6 +19,8 @@ namespace YahooFantasy.Data
 
 		public DbSet<NoStats> NoStats { get; set; }
 
+		public DbSet<Adp> Drafts { get; set; }
+
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

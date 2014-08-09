@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Fantasy\AverageDraftPosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simple\Adp.cs" />
     <Compile Include="Simple\CustomAttributes.cs" />
     <Compile Include="Simple\NoStats.cs" />
     <Compile Include="Simple\SimplePlayer.cs" />

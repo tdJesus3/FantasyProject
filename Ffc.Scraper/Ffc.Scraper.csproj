@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{85BE03F9-EA0A-43A8-A5C3-218B2A1E4892}</ProjectGuid>
+    <ProjectGuid>{CC891DD3-D585-4EDE-B2BC-3A1DB1972AF0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YahooFantasy.Data</RootNamespace>
-    <AssemblyName>YahooFantasy.Data</AssemblyName>
+    <RootNamespace>Ffc.Scraper</RootNamespace>
+    <AssemblyName>Ffc.Scraper</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,14 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,28 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FantasyContext.cs" />
-    <Compile Include="Migrations\201408032012138_Initial.cs" />
-    <Compile Include="Migrations\201408032012138_Initial.Designer.cs">
-      <DependentUpon>201408032012138_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408040430518_NoStats.cs" />
-    <Compile Include="Migrations\201408040430518_NoStats.Designer.cs">
-      <DependentUpon>201408040430518_NoStats.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408090712166_DraftData.cs" />
-    <Compile Include="Migrations\201408090712166_DraftData.Designer.cs">
-      <DependentUpon>201408090712166_DraftData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408090718465_DraftStartDate.cs" />
-    <Compile Include="Migrations\201408090718465_DraftStartDate.Designer.cs">
-      <DependentUpon>201408090718465_DraftStartDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Scraper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -77,20 +55,6 @@
       <Project>{e158c553-418f-4c98-8b21-bf0b388f3386}</Project>
       <Name>YahooFantasy.Models</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201408032012138_Initial.resx">
-      <DependentUpon>201408032012138_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408040430518_NoStats.resx">
-      <DependentUpon>201408040430518_NoStats.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408090712166_DraftData.resx">
-      <DependentUpon>201408090712166_DraftData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408090718465_DraftStartDate.resx">
-      <DependentUpon>201408090718465_DraftStartDate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
