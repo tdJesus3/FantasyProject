@@ -1,0 +1,244 @@
+﻿@{
+	Layout = null;
+}
+
+<script src="~/Scripts/d3.min.js"></script>
+<script src="~/Scripts/nv.d3.min.js"></script>
+<link href="~/Content/nv.d3.min.css" rel="stylesheet" />
+
+<style>
+	#chart svg {
+		height: 95%;
+		width: 100%;
+	}
+</style>
+
+<div id="chart">
+	<svg></svg>
+</div>
+
+<script>
+	nv.addGraph(function () {
+		var chart = nv.models.scatterPlusLineChart()
+			.showDistY(true)
+			.showDistX(true)
+			.transitionDuration(350)
+			.sizeRange([0, 750])
+			.color(d3.scale.category10().range());
+
+		//Configure how the tooltip looks.
+		chart.tooltipContent(function (key, x, y, e, date) {
+			return '<h3>' + key + '</h3>' +
+				'<p>' + date.point.player + '</p>' +
+				'<p>PPGP: ' + date.point.ppgp + '</p>' +
+				'<p>PPG: ' + date.point.ppg + '</p>';
+		});
+
+		//Axis settings
+		chart.xAxis.tickFormat(d3.format('.02f'));
+		chart.yAxis.tickFormat(d3.format('.02f'));
+
+		//We want to show shapes other than circles.
+		chart.scatter.onlyCircles(false);
+
+		var myData = randomData(4, 40);
+		d3.select('#chart svg')
+			.datum(myData)
+			.call(chart);
+
+		nv.utils.windowResize(chart.update);
+
+		return chart;
+	});
+
+	/**************************************
+	 * Simple test data generator
+	 */
+	function randomData(groups, points) { //# groups,# points per group
+		var data = [];
+
+		data.push({
+			key: 'WR',
+			values: [],
+			slope: 0,
+			intercept: 0.382
+			});
+
+		data.push({
+			key: 'RB',
+			values: [],
+			slope: 0,
+			intercept: 0.429
+			});
+
+		data.push({
+			key: 'QB',
+			values: [],
+			slope: 0,
+			intercept: 0.680
+			});
+
+		data.push({
+			key: 'TE',
+			values: [],
+			slope: 0,
+			intercept: 0.356
+			});
+
+		data[0].values.push({ x: 17.80, y: 0.622159, size: 876, shape: "diamond", player: "A.J. Green", ppgp: 13.687500, ppg: 13.687500 });
+		data[0].values.push({ x: 148.80, y: 0.330578, size: 320, shape: "diamond", player: "Aaron Dobson", ppgp: 7.272727, ppg: 5.000000 });
+		data[2].values.push({ x: 24.70, y: 0.742424, size: 588, shape: "triangle-up", player: "Aaron Rodgers", ppgp: 16.333333, ppg: 9.187500 });
+		data[1].values.push({ x: 1.30, y: 0.681818, size: 840, shape: "circle", player: "Adrian Peterson", ppgp: 15.000000, ppg: 13.125000 });
+		data[1].values.push({ x: 55.20, y: 0.560606, size: 148, shape: "circle", player: "Ahmad Bradshaw", ppgp: 12.333333, ppg: 2.312500 });
+		data[2].values.push({ x: 156.30, y: 0.681818, size: 900, shape: "triangle-up", player: "Alex Smith", ppgp: 15.000000, ppg: 14.062500 });
+		data[1].values.push({ x: 11.10, y: 0.508522, size: 716, shape: "circle", player: "Alfred Morris", ppgp: 11.187500, ppg: 11.187500 });
+		data[0].values.push({ x: 118.10, y: 0.573863, size: 808, shape: "diamond", player: "Alshon Jeffery", ppgp: 12.625000, ppg: 12.625000 });
+		data[1].values.push({ x: 134.30, y: 0.437500, size: 308, shape: "circle", player: "Andre Brown", ppgp: 9.625000, ppg: 4.812500 });
+		data[0].values.push({ x: 31.30, y: 0.500000, size: 704, shape: "diamond", player: "Andre Johnson", ppgp: 11.000000, ppg: 11.000000 });
+		data[0].values.push({ x: 163.50, y: 0.187500, size: 264, shape: "diamond", player: "Andre Roberts", ppgp: 4.125000, ppg: 4.125000 });
+		data[2].values.push({ x: 71.40, y: 0.741477, size: 1044, shape: "triangle-up", player: "Andrew Luck", ppgp: 16.312500, ppg: 16.312500 });
+		data[2].values.push({ x: 119.60, y: 0.772727, size: 1088, shape: "triangle-up", player: "Andy Dalton", ppgp: 17.000000, ppg: 17.000000 });
+		data[0].values.push({ x: 83.40, y: 0.477272, size: 672, shape: "diamond", player: "Anquan Boldin", ppgp: 10.500000, ppg: 10.500000 });
+		data[0].values.push({ x: 56.80, y: 0.599431, size: 844, shape: "diamond", player: "Antonio Brown", ppgp: 13.187500, ppg: 13.187500 });
+		data[3].values.push({ x: 88.90, y: 0.332386, size: 468, shape: "square", player: "Antonio Gates", ppgp: 7.312500, ppg: 7.312500 });
+		data[1].values.push({ x: 5.10, y: 0.511363, size: 360, shape: "circle", player: "Arian Foster", ppgp: 11.250000, ppg: 5.625000 });
+		data[2].values.push({ x: 132.00, y: 0.659090, size: 928, shape: "triangle-up", player: "Ben Roethlisberger", ppgp: 14.500000, ppg: 14.500000 });
+		data[1].values.push({ x: 77.10, y: 0.383116, size: 472, shape: "circle", player: "Ben Tate", ppgp: 8.428571, ppg: 7.375000 });
+		data[1].values.push({ x: 85.70, y: 0.349431, size: 492, shape: "circle", player: "BenJarvus Green-Ellis", ppgp: 7.687500, ppg: 7.687500 });
+		data[1].values.push({ x: 102.80, y: 0.210227, size: 296, shape: "circle", player: "Bernard Pierce", ppgp: 4.625000, ppg: 4.625000 });
+		data[1].values.push({ x: 138.60, y: 0.303977, size: 428, shape: "circle", player: "Bilal Powell", ppgp: 6.687500, ppg: 6.687500 });
+		data[0].values.push({ x: 23.70, y: 0.602272, size: 848, shape: "diamond", player: "Brandon Marshall", ppgp: 13.250000, ppg: 13.250000 });
+		data[3].values.push({ x: 139.40, y: 0.251515, size: 332, shape: "square", player: "Brandon Myers", ppgp: 5.533333, ppg: 5.187500 });
+		data[3].values.push({ x: 148.60, y: 0.188311, size: 232, shape: "square", player: "Brandon Pettigrew", ppgp: 4.142857, ppg: 3.625000 });
+		data[0].values.push({ x: 142.10, y: 0.372159, size: 524, shape: "diamond", player: "Brian Hartline", ppgp: 8.187500, ppg: 8.187500 });
+		data[1].values.push({ x: 98.60, y: 0.181818, size: 240, shape: "circle", player: "Bryce Brown", ppgp: 4.000000, ppg: 3.750000 });
+		data[1].values.push({ x: 5.30, y: 0.384848, size: 508, shape: "circle", player: "C.J. Spiller", ppgp: 8.466666, ppg: 7.937500 });
+		data[0].values.push({ x: 9.10, y: 0.733766, size: 904, shape: "diamond", player: "Calvin Johnson", ppgp: 16.142857, ppg: 14.125000 });
+		data[2].values.push({ x: 50.00, y: 0.766666, size: 1012, shape: "triangle-up", player: "Cam Newton", ppgp: 16.866666, ppg: 15.812500 });
+		data[2].values.push({ x: 126.50, y: 0.582386, size: 820, shape: "triangle-up", player: "Carson Palmer", ppgp: 12.812500, ppg: 12.812500 });
+		data[0].values.push({ x: 92.50, y: 0.176136, size: 248, shape: "diamond", player: "Chris Givens", ppgp: 3.875000, ppg: 3.875000 });
+		data[1].values.push({ x: 68.40, y: 0.330303, size: 436, shape: "circle", player: "Chris Ivory", ppgp: 7.266666, ppg: 6.812500 });
+		data[1].values.push({ x: 15.50, y: 0.588068, size: 828, shape: "circle", player: "Chris Johnson", ppgp: 12.937500, ppg: 12.937500 });
+		data[1].values.push({ x: 128.40, y: 0.136363, size: 36, shape: "circle", player: "Christine Michael", ppgp: 3.000000, ppg: 0.562500 });
+		data[2].values.push({ x: 60.90, y: 0.681818, size: 960, shape: "triangle-up", player: "Colin Kaepernick", ppgp: 15.000000, ppg: 15.000000 });
+		data[0].values.push({ x: 126.70, y: 0.352272, size: 496, shape: "diamond", player: "Cordarrelle Patterson", ppgp: 7.750000, ppg: 7.750000 });
+		data[1].values.push({ x: 159.50, y: 0.263636, size: 348, shape: "circle", player: "Daniel Thomas", ppgp: 5.800000, ppg: 5.437500 });
+		data[0].values.push({ x: 40.60, y: 0.310606, size: 328, shape: "diamond", player: "Danny Amendola", ppgp: 6.833333, ppg: 5.125000 });
+		data[1].values.push({ x: 111.70, y: 0.437500, size: 616, shape: "circle", player: "Danny Woodhead", ppgp: 9.625000, ppg: 9.625000 });
+		data[1].values.push({ x: 39.80, y: 0.390909, size: 344, shape: "circle", player: "Darren McFadden", ppgp: 8.600000, ppg: 5.375000 });
+		data[1].values.push({ x: 33.50, y: 0.333333, size: 440, shape: "circle", player: "Darren Sproles", ppgp: 7.333333, ppg: 6.875000 });
+		data[0].values.push({ x: 133.20, y: 0.145454, size: 192, shape: "diamond", player: "Darrius Heyward-Bey", ppgp: 3.200000, ppg: 3.000000 });
+		data[1].values.push({ x: 45.20, y: 0.233766, size: 144, shape: "circle", player: "Daryl Richardson", ppgp: 5.142857, ppg: 2.250000 });
+		data[1].values.push({ x: 16.40, y: 0.172727, size: 76, shape: "circle", player: "David Wilson", ppgp: 3.800000, ppg: 1.187500 });
+		data[0].values.push({ x: 105.90, y: 0.272727, size: 384, shape: "diamond", player: "DeAndre Hopkins", ppgp: 6.000000, ppg: 6.000000 });
+		data[1].values.push({ x: 60.20, y: 0.433333, size: 572, shape: "circle", player: "DeAngelo Williams", ppgp: 9.533333, ppg: 8.937500 });
+		data[1].values.push({ x: 27.40, y: 0.688311, size: 848, shape: "circle", player: "DeMarco Murray", ppgp: 15.142857, ppg: 13.250000 });
+		data[0].values.push({ x: 26.10, y: 0.670454, size: 944, shape: "diamond", player: "Demaryius Thomas", ppgp: 14.750000, ppg: 14.750000 });
+		data[0].values.push({ x: 144.50, y: 0.374125, size: 428, shape: "diamond", player: "Denarius Moore", ppgp: 8.230769, ppg: 6.687500 });
+		data[0].values.push({ x: 58.50, y: 0.556818, size: 784, shape: "diamond", player: "DeSean Jackson", ppgp: 12.250000, ppg: 12.250000 });
+		data[0].values.push({ x: 14.40, y: 0.593750, size: 836, shape: "diamond", player: "Dez Bryant", ppgp: 13.062500, ppg: 13.062500 });
+		data[1].values.push({ x: 2.90, y: 0.454545, size: 240, shape: "circle", player: "Doug Martin", ppgp: 10.000000, ppg: 3.750000 });
+		data[2].values.push({ x: 19.10, y: 0.886363, size: 1248, shape: "triangle-up", player: "Drew Brees", ppgp: 19.500000, ppg: 19.500000 });
+		data[0].values.push({ x: 42.10, y: 0.312121, size: 412, shape: "diamond", player: "Dwayne Bowe", ppgp: 6.866666, ppg: 6.437500 });
+		data[1].values.push({ x: 29.40, y: 0.645454, size: 852, shape: "circle", player: "Eddie Lacy", ppgp: 14.200000, ppg: 13.312500 });
+		data[2].values.push({ x: 157.60, y: 0.581818, size: 512, shape: "triangle-up", player: "EJ Manuel", ppgp: 12.800000, ppg: 8.000000 });
+		data[2].values.push({ x: 108.50, y: 0.500000, size: 704, shape: "triangle-up", player: "Eli Manning", ppgp: 11.000000, ppg: 11.000000 });
+		data[0].values.push({ x: 116.30, y: 0.340909, size: 480, shape: "diamond", player: "Emmanuel Sanders", ppgp: 7.500000, ppg: 7.500000 });
+		data[0].values.push({ x: 62.90, y: 0.571022, size: 804, shape: "diamond", player: "Eric Decker", ppgp: 12.562500, ppg: 12.562500 });
+		data[1].values.push({ x: 24.40, y: 0.519886, size: 732, shape: "circle", player: "Frank Gore", ppgp: 11.437500, ppg: 11.437500 });
+		data[3].values.push({ x: 144.20, y: 0.103896, size: 64, shape: "square", player: "Fred Davis", ppgp: 2.285714, ppg: 1.000000 });
+		data[1].values.push({ x: 95.70, y: 0.551136, size: 776, shape: "circle", player: "Fred Jackson", ppgp: 12.125000, ppg: 12.125000 });
+		data[1].values.push({ x: 41.80, y: 0.488636, size: 688, shape: "circle", player: "Giovani Bernard", ppgp: 10.750000, ppg: 10.750000 });
+		data[0].values.push({ x: 91.60, y: 0.372159, size: 524, shape: "diamond", player: "Golden Tate", ppgp: 8.187500, ppg: 8.187500 });
+		data[0].values.push({ x: 89.50, y: 0.339393, size: 448, shape: "diamond", player: "Greg Jennings", ppgp: 7.466666, ppg: 7.000000 });
+		data[3].values.push({ x: 100.90, y: 0.355113, size: 500, shape: "square", player: "Greg Olsen", ppgp: 7.812500, ppg: 7.812500 });
+		data[0].values.push({ x: 55.60, y: 0.290909, size: 384, shape: "diamond", player: "Hakeem Nicks", ppgp: 6.400000, ppg: 6.000000 });
+		data[0].values.push({ x: 154.60, y: 0.268939, size: 284, shape: "diamond", player: "Jacoby Jones", ppgp: 5.916666, ppg: 4.437500 });
+		data[1].values.push({ x: 129.60, y: 0.290909, size: 384, shape: "circle", player: "Jacquizz Rodgers", ppgp: 6.400000, ppg: 6.000000 });
+		data[1].values.push({ x: 4.70, y: 0.951515, size: 1256, shape: "circle", player: "Jamaal Charles", ppgp: 20.933333, ppg: 19.625000 });
+		data[0].values.push({ x: 71.50, y: 0.331168, size: 408, shape: "diamond", player: "James Jones", ppgp: 7.285714, ppg: 6.375000 });
+		data[3].values.push({ x: 95.50, y: 0.286931, size: 404, shape: "square", player: "Jared Cook", ppgp: 6.312500, ppg: 6.312500 });
+		data[3].values.push({ x: 58.60, y: 0.400568, size: 564, shape: "square", player: "Jason Witten", ppgp: 8.812500, ppg: 8.812500 });
+		data[2].values.push({ x: 125.80, y: 0.657024, size: 636, shape: "triangle-up", player: "Jay Cutler", ppgp: 14.454545, ppg: 9.937500 });
+		data[3].values.push({ x: 75.70, y: 0.386363, size: 204, shape: "square", player: "Jermichael Finley", ppgp: 8.500000, ppg: 3.187500 });
+		data[3].values.push({ x: 22.60, y: 0.636363, size: 896, shape: "square", player: "Jimmy Graham", ppgp: 14.000000, ppg: 14.000000 });
+		data[2].values.push({ x: 139.20, y: 0.572727, size: 756, shape: "triangle-up", player: "Joe Flacco", ppgp: 12.600000, ppg: 11.812500 });
+		data[1].values.push({ x: 135.70, y: 0.491477, size: 692, shape: "circle", player: "Joique Bell", ppgp: 10.812500, ppg: 10.812500 });
+		data[3].values.push({ x: 85.60, y: 0.430303, size: 568, shape: "square", player: "Jordan Cameron", ppgp: 9.466666, ppg: 8.875000 });
+		data[0].values.push({ x: 51.00, y: 0.534090, size: 752, shape: "diamond", player: "Jordy Nelson", ppgp: 11.750000, ppg: 11.750000 });
+		data[0].values.push({ x: 161.50, y: 0.437500, size: 616, shape: "diamond", player: "Julian Edelman", ppgp: 9.625000, ppg: 9.625000 });
+		data[0].values.push({ x: 21.80, y: 0.645454, size: 284, shape: "diamond", player: "Julio Jones", ppgp: 14.200000, ppg: 4.437500 });
+		data[0].values.push({ x: 112.40, y: 0.545454, size: 192, shape: "diamond", player: "Justin Blackmon", ppgp: 12.000000, ppg: 3.000000 });
+		data[0].values.push({ x: 75.00, y: 0.309917, size: 300, shape: "diamond", player: "Kenbrell Thompkins", ppgp: 6.818181, ppg: 4.687500 });
+		data[1].values.push({ x: 153.70, y: 0.173295, size: 244, shape: "circle", player: "Kendall Hunter", ppgp: 3.812500, ppg: 3.812500 });
+		data[0].values.push({ x: 159.10, y: 0.357954, size: 504, shape: "diamond", player: "Kendall Wright", ppgp: 7.875000, ppg: 7.875000 });
+		data[0].values.push({ x: 101.90, y: 0.050000, size: 44, shape: "diamond", player: "Kenny Britt", ppgp: 1.100000, ppg: 0.687500 });
+		data[1].values.push({ x: 99.80, y: 0.690340, size: 972, shape: "circle", player: "Knowshon Moreno", ppgp: 15.187500, ppg: 15.187500 });
+		data[3].values.push({ x: 109.20, y: 0.301136, size: 212, shape: "square", player: "Kyle Rudolph", ppgp: 6.625000, ppg: 3.312500 });
+		data[1].values.push({ x: 32.70, y: 0.298295, size: 420, shape: "circle", player: "Lamar Miller", ppgp: 6.562500, ppg: 6.562500 });
+		data[0].values.push({ x: 103.40, y: 0.216783, size: 248, shape: "diamond", player: "Lance Moore", ppgp: 4.769230, ppg: 3.875000 });
+		data[0].values.push({ x: 28.90, y: 0.460227, size: 648, shape: "diamond", player: "Larry Fitzgerald", ppgp: 10.125000, ppg: 10.125000 });
+		data[1].values.push({ x: 5.90, y: 0.815340, size: 1148, shape: "circle", player: "LeSean McCoy", ppgp: 17.937500, ppg: 17.937500 });
+		data[0].values.push({ x: 158.30, y: 0.363636, size: 64, shape: "diamond", player: "Malcom Floyd", ppgp: 8.000000, ppg: 1.000000 });
+		data[1].values.push({ x: 82.80, y: 0.231404, size: 224, shape: "circle", player: "Mark Ingram", ppgp: 5.090909, ppg: 3.500000 });
+		data[0].values.push({ x: 158.50, y: 0.035353, size: 28, shape: "diamond", player: "Markus Wheaton", ppgp: 0.777777, ppg: 0.437500 });
+		data[0].values.push({ x: 43.80, y: 0.396969, size: 524, shape: "diamond", player: "Marques Colston", ppgp: 8.733333, ppg: 8.187500 });
+		data[1].values.push({ x: 5.60, y: 0.704545, size: 992, shape: "circle", player: "Marshawn Lynch", ppgp: 15.500000, ppg: 15.500000 });
+		data[3].values.push({ x: 152.80, y: 0.312500, size: 440, shape: "square", player: "Martellus Bennett", ppgp: 6.875000, ppg: 6.875000 });
+		data[1].values.push({ x: 12.10, y: 0.772727, size: 1088, shape: "circle", player: "Matt Forte", ppgp: 17.000000, ppg: 17.000000 });
+		data[2].values.push({ x: 54.50, y: 0.627840, size: 884, shape: "triangle-up", player: "Matt Ryan", ppgp: 13.812500, ppg: 13.812500 });
+		data[2].values.push({ x: 138.60, y: 0.463636, size: 408, shape: "triangle-up", player: "Matt Schaub", ppgp: 10.200000, ppg: 6.375000 });
+		data[2].values.push({ x: 66.70, y: 0.724431, size: 1020, shape: "triangle-up", player: "Matthew Stafford", ppgp: 15.937500, ppg: 15.937500 });
+		data[1].values.push({ x: 18.70, y: 0.457575, size: 604, shape: "circle", player: "Maurice Jones-Drew", ppgp: 10.066666, ppg: 9.437500 });
+		data[1].values.push({ x: 124.80, y: 0.175324, size: 216, shape: "circle", player: "Michael Bush", ppgp: 3.857142, ppg: 3.375000 });
+		data[0].values.push({ x: 159.60, y: 0.327272, size: 144, shape: "diamond", player: "Michael Crabtree", ppgp: 7.200000, ppg: 2.250000 });
+		data[0].values.push({ x: 112.30, y: 0.411931, size: 580, shape: "diamond", player: "Michael Floyd", ppgp: 9.062500, ppg: 9.062500 });
+		data[2].values.push({ x: 99.00, y: 0.590909, size: 364, shape: "triangle-up", player: "Michael Vick", ppgp: 13.000000, ppg: 5.687500 });
+		data[0].values.push({ x: 67.60, y: 0.377840, size: 532, shape: "diamond", player: "Mike Wallace", ppgp: 8.312500, ppg: 8.312500 });
+		data[0].values.push({ x: 98.20, y: 0.272727, size: 144, shape: "diamond", player: "Mike Williams", ppgp: 6.000000, ppg: 2.250000 });
+		data[0].values.push({ x: 78.70, y: 0.119834, size: 116, shape: "diamond", player: "Miles Austin", ppgp: 2.636363, ppg: 1.812500 });
+		data[0].values.push({ x: 150.70, y: 0.181818, size: 256, shape: "diamond", player: "Mohamed Sanu", ppgp: 4.000000, ppg: 4.000000 });
+		data[1].values.push({ x: 53.10, y: 0.275568, size: 388, shape: "circle", player: "Montee Ball", ppgp: 6.062500, ppg: 6.062500 });
+		data[3].values.push({ x: 124.70, y: 0.409090, size: 180, shape: "square", player: "Owen Daniels", ppgp: 9.000000, ppg: 2.812500 });
+		data[0].values.push({ x: 133.50, y: 0.090909, size: 8, shape: "diamond", player: "Percy Harvin", ppgp: 2.000000, ppg: 0.125000 });
+		data[2].values.push({ x: 32.40, y: 1.011363, size: 1424, shape: "triangle-up", player: "Peyton Manning", ppgp: 22.250000, ppg: 22.250000 });
+		data[2].values.push({ x: 159.70, y: 0.710227, size: 1000, shape: "triangle-up", player: "Philip Rivers", ppgp: 15.625000, ppg: 15.625000 });
+		data[0].values.push({ x: 48.80, y: 0.485795, size: 684, shape: "diamond", player: "Pierre Garcon", ppgp: 10.687500, ppg: 10.687500 });
+		data[1].values.push({ x: 114.80, y: 0.400568, size: 564, shape: "circle", player: "Pierre Thomas", ppgp: 8.812500, ppg: 8.812500 });
+		data[0].values.push({ x: 32.00, y: 0.590909, size: 312, shape: "diamond", player: "Randall Cobb", ppgp: 13.000000, ppg: 4.875000 });
+		data[1].values.push({ x: 72.20, y: 0.406060, size: 536, shape: "circle", player: "Rashard Mendenhall", ppgp: 8.933333, ppg: 8.375000 });
+		data[1].values.push({ x: 8.20, y: 0.381818, size: 504, shape: "circle", player: "Ray Rice", ppgp: 8.400000, ppg: 7.875000 });
+		data[1].values.push({ x: 19.90, y: 0.626623, size: 772, shape: "circle", player: "Reggie Bush", ppgp: 13.785714, ppg: 12.062500 });
+		data[0].values.push({ x: 46.10, y: 0.435064, size: 268, shape: "diamond", player: "Reggie Wayne", ppgp: 9.571428, ppg: 4.187500 });
+		data[3].values.push({ x: 44.40, y: 0.558441, size: 344, shape: "square", player: "Rob Gronkowski", ppgp: 12.285714, ppg: 5.375000 });
+		data[2].values.push({ x: 74.80, y: 0.671328, size: 768, shape: "triangle-up", player: "Robert Griffin III", ppgp: 14.769230, ppg: 12.000000 });
+		data[0].values.push({ x: 35.00, y: 0.328671, size: 376, shape: "diamond", player: "Roddy White", ppgp: 7.230769, ppg: 5.875000 });
+		data[1].values.push({ x: 102.90, y: 0.207070, size: 164, shape: "circle", player: "Ronnie Hillman", ppgp: 4.555555, ppg: 2.562500 });
+		data[0].values.push({ x: 129.10, y: 0.281250, size: 396, shape: "diamond", player: "Rueben Randle", ppgp: 6.187500, ppg: 6.187500 });
+		data[2].values.push({ x: 85.50, y: 0.701704, size: 988, shape: "triangle-up", player: "Russell Wilson", ppgp: 15.437500, ppg: 15.437500 });
+		data[1].values.push({ x: 48.70, y: 0.545454, size: 768, shape: "circle", player: "Ryan Mathews", ppgp: 12.000000, ppg: 12.000000 });
+		data[2].values.push({ x: 145.40, y: 0.675324, size: 416, shape: "triangle-up", player: "Sam Bradford", ppgp: 14.857142, ppg: 6.500000 });
+		data[1].values.push({ x: 65.80, y: 0.522727, size: 368, shape: "circle", player: "Shane Vereen", ppgp: 11.500000, ppg: 5.750000 });
+		data[1].values.push({ x: 153.80, y: 0.256198, size: 248, shape: "circle", player: "Shonn Greene", ppgp: 5.636363, ppg: 3.875000 });
+		data[0].values.push({ x: 120.80, y: 0.238636, size: 168, shape: "diamond", player: "Sidney Rice", ppgp: 5.250000, ppg: 2.625000 });
+		data[1].values.push({ x: 17.50, y: 0.399350, size: 492, shape: "circle", player: "Stevan Ridley", ppgp: 8.785714, ppg: 7.687500 });
+		data[1].values.push({ x: 14.80, y: 0.454545, size: 480, shape: "circle", player: "Steven Jackson", ppgp: 10.000000, ppg: 7.500000 });
+		data[0].values.push({ x: 63.30, y: 0.414772, size: 584, shape: "diamond", player: "T.Y. Hilton", ppgp: 9.125000, ppg: 9.125000 });
+		data[0].values.push({ x: 82.80, y: 0.339160, size: 388, shape: "diamond", player: "Tavon Austin", ppgp: 7.461538, ppg: 6.062500 });
+		data[2].values.push({ x: 42.50, y: 0.613636, size: 864, shape: "triangle-up", player: "Tom Brady", ppgp: 13.500000, ppg: 13.500000 });
+		data[3].values.push({ x: 66.20, y: 0.409090, size: 576, shape: "square", player: "Tony Gonzalez", ppgp: 9.000000, ppg: 9.000000 });
+		data[2].values.push({ x: 79.70, y: 0.700000, size: 924, shape: "triangle-up", player: "Tony Romo", ppgp: 15.400000, ppg: 14.437500 });
+		data[0].values.push({ x: 53.80, y: 0.420454, size: 592, shape: "diamond", player: "Torrey Smith", ppgp: 9.250000, ppg: 9.250000 });
+		data[1].values.push({ x: 7.70, y: 0.332386, size: 468, shape: "circle", player: "Trent Richardson", ppgp: 7.312500, ppg: 7.312500 });
+		data[3].values.push({ x: 152.10, y: 0.190909, size: 252, shape: "square", player: "Tyler Eifert", ppgp: 4.200000, ppg: 3.937500 });
+		data[3].values.push({ x: 56.20, y: 0.506060, size: 668, shape: "square", player: "Vernon Davis", ppgp: 11.133333, ppg: 10.437500 });
+		data[1].values.push({ x: 120.40, y: 0.272727, size: 24, shape: "circle", player: "Vick Ballard", ppgp: 6.000000, ppg: 0.375000 });
+		data[0].values.push({ x: 36.50, y: 0.409090, size: 504, shape: "diamond", player: "Victor Cruz", ppgp: 9.000000, ppg: 7.875000 });
+		data[0].values.push({ x: 115.80, y: 0.170454, size: 240, shape: "diamond", player: "Vincent Brown", ppgp: 3.750000, ppg: 3.750000 });
+		data[0].values.push({ x: 38.40, y: 0.485795, size: 684, shape: "diamond", player: "Vincent Jackson", ppgp: 10.687500, ppg: 10.687500 });
+		data[0].values.push({ x: 46.60, y: 0.500000, size: 572, shape: "diamond", player: "Wes Welker", ppgp: 11.000000, ppg: 8.937500 });
+
+
+		return data;
+	}
+</script>
