@@ -11,7 +11,7 @@ namespace YahooFantasy.Tests
 		[TestMethod]
 		public void TestScrapeDraft()
 		{
-			var draftData = Scraper.ScrapeDraft(2011);
+			var draftData = Scraper.ScrapeDraft(2014);
 
 			using (var context = new FantasyContext())
 			{

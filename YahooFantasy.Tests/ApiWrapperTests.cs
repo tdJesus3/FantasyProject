@@ -330,7 +330,7 @@ namespace YahooFantasy.Tests
 				var noStats = context.NoStats.ToList();
 
 				//var years = Enumerable.Range(2001, 13).OrderByDescending(i => i).ToList();
-				var years = Enumerable.Range(2012, 1).OrderByDescending(i => i).ToList();
+				var years = Enumerable.Range(2011, 1).OrderByDescending(i => i).ToList();
 				var weeks = Enumerable.Range(1, 17).ToList();
 
 				var positions = new List<SimplePositionTypes>

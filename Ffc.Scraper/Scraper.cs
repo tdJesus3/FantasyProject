@@ -24,9 +24,9 @@ namespace Ffc.Scraper
 							select new Adp
 							{
 								PlayerName = HtmlEntity.DeEntitize(fields[2].InnerText),
-								OverallAdp = Decimal.Parse(HtmlEntity.DeEntitize(fields[5].InnerText)),
+								OverallAdp = Decimal.Parse(HtmlEntity.DeEntitize(year == 2014 ? fields[6].InnerText : fields[5].InnerText)),
 								Year = year,
-								TimesDrafted = Int32.Parse(HtmlEntity.DeEntitize(fields[9].InnerText)),
+								TimesDrafted = Int32.Parse(HtmlEntity.DeEntitize(year == 2014 ? fields[10].InnerText : fields[9].InnerText)),
 								Position = HtmlEntity.DeEntitize(fields[3].InnerText),
 								Team = HtmlEntity.DeEntitize(fields[4].InnerText)
 							};
