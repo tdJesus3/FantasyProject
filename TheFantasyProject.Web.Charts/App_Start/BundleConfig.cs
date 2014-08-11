@@ -19,7 +19,11 @@ namespace TheFantasyProject.Web.Charts
 				"~/Scripts/nv.d3.min.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
-				"~/Content/site.css"));
+				"~/Content/site.css",
+				"~/Content/toastr.min.css"));
+
+			bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
+				"~/Scripts/toastr.min.js"));
 
 			// Set EnableOptimizations to false for debugging. For more information,
 			// visit http://go.microsoft.com/fwlink/?LinkId=301862

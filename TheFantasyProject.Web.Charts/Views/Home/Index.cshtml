@@ -15,6 +15,25 @@
 	$('.nav-nav > a').click(function () {
 		selectedYear = $(this).data("id");
 
+		if (selectedYear == 2014) {
+			var options = {
+				closeButton: false,
+				debug: false,
+				positionClass: "toast-top-full-width",
+				onclick: null,
+				showDuration: "300",
+				hideDuration: "1000",
+				timeOut: "5000",
+				extendedTimeOut: "3000",
+				showEasing: "swing",
+				hideEasing: "linear",
+				showMethod: "fadeIn",
+				hideMethod: "fadeOut"
+			};
+
+			toastr.info("For 2014, the chart shows 2014 ADP vs. 2013 PPGP.  It can be used to identify under/over-valued players.", "2014", options);
+		}
+
 		var data = getData(selectedYear);
 
 		d3.select('#chart svg')

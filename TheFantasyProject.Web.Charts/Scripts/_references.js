@@ -8,3 +8,4 @@
 /// <reference path="nv.d3.js" />
 /// <reference path="respond.js" />
 /// <reference path="respond.matchmedia.addlistener.js" />
+/// <reference path="toastr.min.js" />
