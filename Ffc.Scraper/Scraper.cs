@@ -1,15 +1,13 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
 using YahooFantasy.Models.Simple;
 
 namespace Ffc.Scraper
 {
-    public static class Scraper
-    {
+	public static class Scraper
+	{
 		public static List<Adp> ScrapeDraft(int year)
 		{
 			var web = new HtmlWeb();
@@ -33,5 +31,5 @@ namespace Ffc.Scraper
 
 			return query.ToList();
 		}
-    }
+	}
 }

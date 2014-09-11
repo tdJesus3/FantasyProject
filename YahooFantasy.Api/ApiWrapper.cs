@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using YahooFantasy.Api.JsonConverters;
 using YahooFantasy.Api.Models;
+using YahooFantasy.Api.Models.Leagues;
 using YahooFantasy.Api.Models.PlayersModel;
 using YahooFantasy.Api.Models.StatsModel;
 
@@ -307,6 +308,60 @@ namespace YahooFantasy.Api
 			}
 
 			return null;
+		}
+
+		public LeagueCollection GetLeagues(string accessToken, string tokenSecret)
+		{
+			//_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, "", "");
+			_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, accessToken, tokenSecret);
+
+			var request = new RestRequest("users;use_login=1/games;game_keys={gameKey}/leagues", Method.GET);
+			request.AddUrlSegment("gameKey", "nfl");
+			request.AddJsonParam();
+
+			var response = _client.Execute(request);
+
+			var data = JObject.Parse(response.Content);
+			var games = data["fantasy_content"]["users"]["0"]["user"][1]["games"];
+			var leagues = JsonConvert.DeserializeObject<LeagueCollection>(games.ToString(), new JsonLeagueConverter());
+
+			return leagues;
+		}
+
+		public LeagueSettings GetLeagueSettings(string accessToken, string tokenSecret, string leagueKey)
+		{
+			_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, accessToken, tokenSecret);
+
+			var request = new RestRequest("league/{leagueKey}/settings", Method.GET);
+			request.AddUrlSegment("leagueKey", leagueKey);
+			request.AddJsonParam();
+
+			var response = _client.Execute(request);
+			var data = JObject.Parse(response.Content);
+			var settings = data["fantasy_content"]["league"][1]["settings"];
+			var stats = settings[0]["stat_modifiers"]["stats"];
+
+			int teamCount = (int)JObject.Parse(data["fantasy_content"]["league"][0]["num_teams"]).Value;
+			string leagueName = data["fantasy_content"]["league"][0]["league_name"];
+
+			var statModifiers = JsonConvert.DeserializeObject<List<StatModifiers>>(stats.ToString());
+
+			decimal pointsPerReception =
+				statModifiers.Any(s => s.ModifiedStat.StatId == 11) ?
+				statModifiers.First(s => s.ModifiedStat.StatId == 1).ModifiedStat.Value : 0M;
+
+			decimal pointsPerPassingTd =
+				statModifiers.Any(s => s.ModifiedStat.StatId == 5) ?
+				statModifiers.First(s => s.ModifiedStat.StatId == 5).ModifiedStat.Value : 4M;
+
+			return new LeagueSettings
+			{
+				LeagueKey = leagueKey,
+				Name = leagueName,
+				NumTeams = teamCount,
+				PointsPerPassingTd = pointsPerPassingTd,
+				PointsPerReception = pointsPerReception
+			};
 		}
 
 		private string GetYearKey(string year)

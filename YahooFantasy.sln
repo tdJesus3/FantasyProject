@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasy.Api", "YahooFantasy.Api\YahooFantasy.Api.csproj", "{7BF0C61F-8E4F-465D-887F-0EF8025EEE10}"
 EndProject
@@ -25,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFantasyProject.Web.Charts", "TheFantasyProject.Web.Charts\TheFantasyProject.Web.Charts.csproj", "{63E25CEF-38A1-442D-8791-FB45F9F94504}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFantasyProject.Web.Charts.Tests", "TheFantasyProject.Web.Charts.Tests\TheFantasyProject.Web.Charts.Tests.csproj", "{5E32DF00-1923-40D4-A8CA-8DD9B478B7FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooJsonPlayground", "..\YahooJsonPlayground\YahooJsonPlayground\YahooJsonPlayground.csproj", "{A03419C8-C42B-41C6-8690-612D7E2E9103}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +66,10 @@ Global
 		{5E32DF00-1923-40D4-A8CA-8DD9B478B7FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E32DF00-1923-40D4-A8CA-8DD9B478B7FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E32DF00-1923-40D4-A8CA-8DD9B478B7FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A03419C8-C42B-41C6-8690-612D7E2E9103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03419C8-C42B-41C6-8690-612D7E2E9103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03419C8-C42B-41C6-8690-612D7E2E9103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03419C8-C42B-41C6-8690-612D7E2E9103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

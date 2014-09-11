@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YahooFantasy.Models.Simple;
 
 namespace YahooFantasy.Data
 {
 	public class FantasyContext : DbContext
 	{
-		public FantasyContext() : base("FantasyContext") { }
+		public FantasyContext()
+			: base("FantasyContext")
+		{
+		}
 
 		public DbSet<SimplePlayer> Players { get; set; }
 
@@ -20,6 +18,8 @@ namespace YahooFantasy.Data
 		public DbSet<NoStats> NoStats { get; set; }
 
 		public DbSet<Adp> Drafts { get; set; }
+
+		public DbSet<SimpleTrade> Trades { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

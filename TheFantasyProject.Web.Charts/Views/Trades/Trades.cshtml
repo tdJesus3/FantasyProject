@@ -1,0 +1,55 @@
+﻿@using Microsoft.Owin.Security
+@using TheFantasyProject.Web.Charts.Models
+
+@model ExternalLoginListViewModel
+
+@{
+	ViewBag.Title = "Trades";
+}
+
+<div class="row trades">
+	@{
+		var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+		var p = loginProviders.First();
+
+		using (Html.BeginForm("ExternalLogin", "Trades"))
+		{
+			@Html.AntiForgeryToken()
+			<div id="socialLoginList">
+				<p>
+					<button type="submit" class="btn btn-success" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Log in with @p.AuthenticationType</button>
+				</p>
+			</div>
+		}
+
+		using (Html.BeginForm("LogOut", "Trades"))
+		{
+			@Html.AntiForgeryToken()
+			<button type="submit" class="btn btn-danger" value="@p.AuthenticationType">Log out of Yahoo</button>
+		}
+	}
+</div>
+
+@{
+	if (ViewBag.IsAuthed != null && ViewBag.IsAuthed)
+	{
+		<div class="row">
+			<h1>You're in!</h1>
+		</div>
+	}
+}
+<div class="row">
+	<div class="col-lg-6 center-block">
+		<input type="text" placeholder="Search for player ..." class="typeahead" />
+	</div>
+</div>
+
+<script>
+	//$('input.typeahead').typeahead({
+	//	source: function (query, process) {
+	//		a
+	//		objects = [];
+	//		map = {};
+	//	}
+	//})
+</script>
