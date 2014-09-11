@@ -42,22 +42,7 @@ namespace YahooJsonPlayground
 				json = reader.ReadToEnd();
 
 			var data = JObject.Parse(json);
-			var test = JsonConvert.DeserializeObject<Rootobject>(json);
-
-			var settings = data["fantasy_content"]["league"][1]["settings"];
-
-			var stats = settings[0]["stat_modifiers"]["stats"];
-			int teamCount = 10;
-
-			var statModifiers = JsonConvert.DeserializeObject<List<StatModifiers>>(stats.ToString());
-
-			decimal pointsPerReception =
-				statModifiers.Any(s => s.ModifiedStat.StatId == 11) ?
-				statModifiers.First(s => s.ModifiedStat.StatId == 1).ModifiedStat.Value : 0M;
-
-			decimal pointsPerPassingTd =
-				statModifiers.Any(s => s.ModifiedStat.StatId == 5) ?
-				statModifiers.First(s => s.ModifiedStat.StatId == 5).ModifiedStat.Value : 4M;
+			var test = JsonConvert.DeserializeObject<SettingsRoot>(json);
 		}
 	}
 }

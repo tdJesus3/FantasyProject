@@ -132,11 +132,9 @@
     <Compile Include="JsonConverters\JsonStatConverter.cs" />
     <Compile Include="Models\FantasyContent.cs" />
     <Compile Include="Models\Game.cs" />
-    <Compile Include="Models\Leagues\LeagueSettings.cs" />
     <Compile Include="Models\Leagues\League.cs" />
     <Compile Include="Models\Leagues\Leagues.cs" />
-    <Compile Include="Models\Leagues\ModifiedStat.cs" />
-    <Compile Include="Models\Leagues\ModifiedStats.cs" />
+    <Compile Include="Models\Leagues\Settings\LeagueSettings.cs" />
     <Compile Include="Models\PlayersModel\ByeWeeks.cs" />
     <Compile Include="Models\PlayersModel\EligiblePosition.cs" />
     <Compile Include="Models\PlayersModel\Headshot.cs" />
@@ -158,9 +156,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\StatCategories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="TestJson.json" />
   </ItemGroup>

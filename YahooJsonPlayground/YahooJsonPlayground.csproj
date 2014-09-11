@@ -48,19 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JsonLeagueConverter.cs" />
-    <Compile Include="JsonLeagueSettingsConverter.cs" />
     <Compile Include="League.cs" />
     <Compile Include="LeagueCollection.cs" />
-    <Compile Include="LeagueSettings.cs" />
-    <Compile Include="ModifiedStat.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsTest.cs" />
-    <Compile Include="StatModifiers.cs" />
-    <Compile Include="StatModifiersRoot.cs" />
+    <Compile Include="LeagueSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Json\league_json.json" />
+    <None Include="Json\league_settings_json.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
