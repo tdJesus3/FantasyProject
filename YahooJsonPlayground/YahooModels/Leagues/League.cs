@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YahooJsonPlayground
+namespace YahooJsonPlayground.YahooModels.Leagues
 {
 	public class League
 	{

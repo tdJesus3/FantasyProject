@@ -135,6 +135,7 @@
     <Compile Include="Models\Leagues\League.cs" />
     <Compile Include="Models\Leagues\Leagues.cs" />
     <Compile Include="Models\Leagues\Settings\LeagueSettings.cs" />
+    <Compile Include="Models\Leagues\Transactions.cs" />
     <Compile Include="Models\PlayersModel\ByeWeeks.cs" />
     <Compile Include="Models\PlayersModel\EligiblePosition.cs" />
     <Compile Include="Models\PlayersModel\Headshot.cs" />

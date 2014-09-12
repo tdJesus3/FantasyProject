@@ -50,7 +50,7 @@ namespace YahooFantasy.Api
 				{ "2014", "nfl" }
 			};
 
-		public StatCategories StatCategories { get; set; }
+		public Models.StatCategories StatCategories { get; set; }
 
 		public ApiWrapper(string gameType)
 		{
@@ -149,7 +149,7 @@ namespace YahooFantasy.Api
 			return playerList;
 		}
 
-		public List<Stat> GetStatsByPlayer(string playerId, string year)
+		public List<Models.StatsModel.Stat> GetStatsByPlayer(string playerId, string year)
 		{
 			// todo: parameter sanity checks
 			string yearKey;
@@ -161,13 +161,13 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("playerId", playerId);
 			request.AddJsonParam();
 
-			var stats = new List<Stat>();
+			var stats = new List<Models.StatsModel.Stat>();
 			try
 			{
 				var response = _client.Execute(request);
 				var json = JObject.Parse(response.Content);
 				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
-				stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+				stats = JsonConvert.DeserializeObject<List<Models.StatsModel.Stat>>(playerStats.ToString());
 			}
 			catch
 			{
@@ -189,7 +189,7 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("playerId", playerId);
 			request.AddJsonParam();
 
-			var stats = new List<Stat>();
+			var stats = new List<Models.StatsModel.Stat>();
 			var statWrapper = new StatWrapper();
 			try
 			{
@@ -205,7 +205,7 @@ namespace YahooFantasy.Api
 
 				var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
 
-				stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+				stats = JsonConvert.DeserializeObject<List<Models.StatsModel.Stat>>(playerStats.ToString());
 
 				statWrapper.Position = playerPosition;
 				statWrapper.Team = teamName;
@@ -233,7 +233,7 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("week", week.ToString());
 			request.AddJsonParam();
 
-			var stats = new List<Stat>();
+			var stats = new List<Models.StatsModel.Stat>();
 			var statWrapper = new StatWrapper();
 
 			try
@@ -251,7 +251,7 @@ namespace YahooFantasy.Api
 				try
 				{
 					var playerStats = json["fantasy_content"]["player"][1]["player_stats"]["stats"];
-					stats = JsonConvert.DeserializeObject<List<Stat>>(playerStats.ToString());
+					stats = JsonConvert.DeserializeObject<List<Models.StatsModel.Stat>>(playerStats.ToString());
 
 					statWrapper.Position = "";
 					statWrapper.Team = "";
@@ -288,7 +288,7 @@ namespace YahooFantasy.Api
 		/// The StatCategories object contains a list of Stats.
 		/// </summary>
 		/// <returns>StatCategories</returns>
-		public StatCategories GetStatCategories()
+		public Models.StatCategories GetStatCategories()
 		{
 			// todo: Possibly return a List<Stat> instead of the root StatCategories object
 			var request = new RestRequest("game/{gameType}/stat_categories", Method.GET);
@@ -338,8 +338,10 @@ namespace YahooFantasy.Api
 			request.AddJsonParam();
 
 			var response = _client.Execute(request);
-			var data = JObject.Parse(response.Content);
-			var settings = JsonConvert.DeserializeObject<SettingsRoot>(json);
+			//var data = JObject.Parse(response.Content);
+			var settings = JsonConvert.DeserializeObject<SettingsRoot>(response.Content);
+
+			return settings;
 		}
 
 		#region Helpers
