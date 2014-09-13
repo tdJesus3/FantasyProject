@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using YahooJsonPlayground.YahooModels.Shared;
 using YahooJsonPlayground.YahooModels.Leagues;
-using YahooJsonPlayground.YahooModels.Players;
-using YahooJsonPlayground.YahooModels.Stats;
+//using YahooJsonPlayground.YahooModels.Players;
+//using YahooJsonPlayground.YahooModels.Stats;
 
 namespace YahooJsonPlayground
 {

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YahooJsonPlayground.YahooModels.Leagues;
 
 namespace YahooJsonPlayground.YahooModels.Shared
 {
@@ -26,7 +28,7 @@ namespace YahooJsonPlayground.YahooModels.Shared
 		[JsonProperty("league")]
 		public LeagueTest[] League { get; set; }
 
-		[JsonProperty("game")]
-		public List<Game> Game { get; set; }
+		//[JsonProperty("game")]
+		//public List<Game> Game { get; set; }
 	}
 }
