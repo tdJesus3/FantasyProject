@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YahooFantasy.Models.Simple.Trades;
 
 namespace YahooFantasy.Models.Simple
 {
@@ -52,5 +53,9 @@ namespace YahooFantasy.Models.Simple
 		public SimplePositionTypes PrimaryPosition { get; set; }
 
 		public virtual ICollection<SimpleStats> Stats { get; set; }
+
+		public virtual ICollection<SimpleTrade> TradesIn { get; set; }
+
+		public virtual ICollection<SimpleTrade> TradesOut { get; set; }
 	}
 }

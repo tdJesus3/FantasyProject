@@ -61,6 +61,7 @@
     <None Include="App.config" />
     <None Include="Json\league_json.json" />
     <None Include="Json\league_settings_json.json" />
+    <None Include="Json\transactions_json.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

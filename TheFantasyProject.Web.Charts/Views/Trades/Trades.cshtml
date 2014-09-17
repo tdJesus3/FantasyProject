@@ -15,34 +15,45 @@
 		using (Html.BeginForm("ExternalLogin", "Trades"))
 		{
 			@Html.AntiForgeryToken()
-			<div id="socialLoginList">
+			<div id="socialLoginList" class="col-lg-12">
 				<p>
-					<button type="submit" class="btn btn-success" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Log in with @p.AuthenticationType</button>
+					<button type="submit" class="btn btn-lg btn-success center-block" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">Get data from @p.AuthenticationType</button>
 				</p>
 			</div>
 		}
 
-		using (Html.BeginForm("LogOut", "Trades"))
+		@*using (Html.BeginForm("LogOut", "Trades"))
+			{
+				@Html.AntiForgeryToken()
+				<button type="submit" class="btn btn-danger" value="@p.AuthenticationType">Log out of Yahoo</button>
+			}*@
+	}
+
+	@{
+		if (!String.IsNullOrEmpty(ViewBag.ErrorMessage))
 		{
-			@Html.AntiForgeryToken()
-			<button type="submit" class="btn btn-danger" value="@p.AuthenticationType">Log out of Yahoo</button>
+			<div class="col-lg-12">
+				<h2 class="text-center">@ViewBag.ErrorMessage</h2>
+			</div>
+		}
+		else
+		{
+			if (ViewBag.Success)
+			{
+				<div class="col-lg-12">
+					<h1 class="text-center">Data loaded!  Thanks!</h1>
+				</div>
+			}
 		}
 	}
 </div>
 
-@{
-	if (ViewBag.IsAuthed != null && ViewBag.IsAuthed)
-	{
-		<div class="row">
-			<h1>You're in!</h1>
+
+@*<div class="row">
+		<div class="col-lg-6 center-block">
+			<input type="text" placeholder="Search for player ..." class="typeahead" />
 		</div>
-	}
-}
-<div class="row">
-	<div class="col-lg-6 center-block">
-		<input type="text" placeholder="Search for player ..." class="typeahead" />
-	</div>
-</div>
+	</div>*@
 
 <script>
 	//$('input.typeahead').typeahead({

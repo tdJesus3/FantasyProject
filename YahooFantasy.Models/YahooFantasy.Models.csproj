@@ -52,11 +52,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simple\Adp.cs" />
     <Compile Include="Simple\CustomAttributes.cs" />
-    <Compile Include="Simple\LeagueRules.cs" />
+    <Compile Include="Simple\Trades\League.cs" />
     <Compile Include="Simple\NoStats.cs" />
     <Compile Include="Simple\SimplePlayer.cs" />
     <Compile Include="Simple\SimpleStats.cs" />
-    <Compile Include="Simple\SimpleTrade.cs" />
+    <Compile Include="Simple\Trades\SimpleTrade.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

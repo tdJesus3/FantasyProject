@@ -1,10 +1,15 @@
 ﻿using Microsoft.Owin.Security;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using YahooFantasy.Api;
+using YahooFantasy.Api.Models.Leagues;
+using YahooFantasy.Api.Models.Leagues.Settings;
+using YahooFantasy.Data;
+using YahooFantasy.Models;
 
 namespace TheFantasyProject.Web.Charts.Controllers
 {
@@ -18,6 +23,7 @@ namespace TheFantasyProject.Web.Charts.Controllers
 			}
 		}
 
+		#region Session Facade
 		private string AccessToken
 		{
 			get { return (string)Session["AccessToken"]; }
@@ -29,15 +35,35 @@ namespace TheFantasyProject.Web.Charts.Controllers
 			get { return (string)Session["TokenSecret"]; }
 			set { Session["TokenSecret"] = value; }
 		}
+		#endregion
 
 		public ActionResult Trades(bool? isAuthed)
 		{
-			if (isAuthed.HasValue && isAuthed.Value)
+			ViewBag.Success = false;
+
+			if (isAuthed.HasValue && isAuthed.Value && !String.IsNullOrEmpty(AccessToken))
 			{
-				ViewBag.IsAuthed = true;
-				var wrapper = new ApiWrapper("nfl");
-				//wrapper.GetLeagues(AccessToken, TokenSecret);
-				wrapper.GetLeagueSettings(AccessToken, TokenSecret, "331.l.43546");
+				try
+				{
+					var wrapper = new ApiWrapper("nfl");
+					var leagues = wrapper.GetLeagues(AccessToken, TokenSecret);
+
+					foreach (var league in leagues.Item1.Leagues)
+					{
+						var key = league.LeagueKey;
+						var settings = wrapper.GetLeagueSettings(AccessToken, TokenSecret, key);
+						var trans = wrapper.GetTransactions(AccessToken, TokenSecret, key);
+
+						SaveSettings(settings.Item1, leagues.Item2, settings.Item2, trans);
+
+						ViewBag.Success = true;
+					}
+				}
+				catch
+				{
+					ViewBag.ErrorMessage = "Something went awry :( ... try again?";
+				}
+
 			}
 
 			return View();
@@ -92,6 +118,61 @@ namespace TheFantasyProject.Web.Charts.Controllers
 			TokenSecret = claims.First(c => c.Type == "AccessTokenSecret").Value;
 
 			return RedirectToAction("Trades", new { isAuthed = true });
+		}
+
+		public void SaveSettings(SettingsRoot settings, string leagueJson, string settingsJson, string transactionsJson)
+		{
+			var context = new FantasyContext();
+
+			foreach(var league in settings.FantasyContent.Leagues)
+			{
+				decimal pointsPerReception = 0.0M;
+				decimal pointsPerPassingTd = 4.0M;
+
+				string ppr, ppptd;
+
+				try
+				{
+					ppr = league.Settings.First()
+						.StatModifiers.ModifiedStats
+						.FirstOrDefault(s => s.ModifiedStat.StatId == 11)
+						.ModifiedStat.Value;
+				}
+				catch
+				{
+					ppr = null;
+				}
+
+				try
+				{
+					ppptd = league.Settings.First()
+						.StatModifiers.ModifiedStats
+						.FirstOrDefault(s => s.ModifiedStat.StatId == 5)
+						.ModifiedStat.Value;
+				}
+				catch
+				{
+					ppptd = null;
+				}
+
+				Decimal.TryParse(ppr, out pointsPerReception);
+				Decimal.TryParse(ppptd, out pointsPerPassingTd);
+
+				var dbLeague = new YahooFantasy.Models.Simple.Trades.League
+				{
+					LeagueKey = league.LeagueKey,
+					NumberOfOwners = league.NumTeams,
+					LeagueJson = leagueJson,
+					SettingsJson = settingsJson,
+					TransactionsJson = transactionsJson,
+					PointsPerPassingTouchdown = pointsPerPassingTd,
+					PointsPerReception = pointsPerReception
+				};
+
+				context.Leagues.Add(dbLeague);
+				context.SaveChanges();
+			}
+
 		}
 	}
 }

@@ -5,6 +5,7 @@ using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using YahooFantasy.Api.JsonConverters;
 using YahooFantasy.Api.Models;
 using YahooFantasy.Api.Models.Leagues;
@@ -14,6 +15,44 @@ using YahooFantasy.Api.Models.StatsModel;
 
 namespace YahooFantasy.Api
 {
+	public static class Retry
+	{
+		public static void Do(
+			Action action,
+			TimeSpan retryInterval,
+			int retryCount = 3)
+		{
+			Do<object>(() =>
+			{
+				action();
+				return null;
+			}, retryInterval, retryCount);
+		}
+
+		public static T Do<T>(
+			Func<T> action,
+			TimeSpan retryInterval,
+			int retryCount = 3)
+		{
+			var exceptions = new List<Exception>();
+
+			for (int retry = 0; retry < retryCount; retry++)
+			{
+				try
+				{
+					return action();
+				}
+				catch (Exception ex)
+				{
+					exceptions.Add(ex);
+					Thread.Sleep(retryInterval);
+				}
+			}
+
+			throw new AggregateException(exceptions);
+		}
+	}
+
 	public static class Extensions
 	{
 		public static void AddJsonParam(this RestRequest request)
@@ -311,7 +350,16 @@ namespace YahooFantasy.Api
 			return null;
 		}
 
-		public LeagueCollection GetLeagues(string accessToken, string tokenSecret)
+		private IRestResponse ExecuteRequest(IRestClient client, IRestRequest request)
+		{
+			var response = client.Execute(request);
+			if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+				throw new UnauthorizedAccessException();
+
+			return response;
+		}
+
+		public Tuple<LeagueCollection, string> GetLeagues(string accessToken, string tokenSecret)
 		{
 			//_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, "", "");
 			_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, accessToken, tokenSecret);
@@ -320,16 +368,18 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("gameKey", "nfl");
 			request.AddJsonParam();
 
-			var response = _client.Execute(request);
+			var response = Retry.Do<IRestResponse>(() => ExecuteRequest(_client, request), TimeSpan.FromSeconds(1), 10);
 
 			var data = JObject.Parse(response.Content);
 			var games = data["fantasy_content"]["users"]["0"]["user"][1]["games"];
 			var leagues = JsonConvert.DeserializeObject<LeagueCollection>(games.ToString(), new JsonLeagueConverter());
 
-			return leagues;
+			return Tuple.Create<LeagueCollection, string>(leagues, response.Content);
+
+			//return leagues;
 		}
 
-		public SettingsRoot GetLeagueSettings(string accessToken, string tokenSecret, string leagueKey)
+		public Tuple<SettingsRoot, string> GetLeagueSettings(string accessToken, string tokenSecret, string leagueKey)
 		{
 			_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, accessToken, tokenSecret);
 
@@ -337,11 +387,29 @@ namespace YahooFantasy.Api
 			request.AddUrlSegment("leagueKey", leagueKey);
 			request.AddJsonParam();
 
-			var response = _client.Execute(request);
+			var response = Retry.Do<IRestResponse>(() => ExecuteRequest(_client, request), TimeSpan.FromSeconds(1), 10);
 			//var data = JObject.Parse(response.Content);
 			var settings = JsonConvert.DeserializeObject<SettingsRoot>(response.Content);
 
-			return settings;
+			return Tuple.Create<SettingsRoot, string>(settings, response.Content);
+
+			//return settings;
+		}
+
+		public string GetTransactions(string accessToken, string tokenSecret, string leagueKey)
+		{
+			_client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, Secret, accessToken, tokenSecret);
+
+			var request = new RestRequest("league/{leagueKey}/transactions;type=trade");
+			request.AddUrlSegment("leagueKey", leagueKey);
+			request.AddJsonParam();
+
+			var response = Retry.Do<IRestResponse>(() => ExecuteRequest(_client, request), TimeSpan.FromSeconds(1), 10);
+			//var data = JObject.Parse(response.Content);
+
+			//var transactions = data["fantasy_content"]["league"][0]["transactions"];
+
+			return response.Content;
 		}
 
 		#region Helpers

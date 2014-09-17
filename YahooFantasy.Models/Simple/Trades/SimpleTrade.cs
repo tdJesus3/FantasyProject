@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace YahooFantasy.Models.Simple
+namespace YahooFantasy.Models.Simple.Trades
 {
 	public class SimpleTrade
 	{
@@ -13,12 +13,15 @@ namespace YahooFantasy.Models.Simple
 
 		public string UserName { get; set; }
 
-		public virtual ICollection<SimplePlayer> TradedOut { get; set; }
+		public virtual ICollection<SimplePlayer> PlayersTradedOut { get; set; }
 
-		public virtual ICollection<SimplePlayer> TradedIn { get; set; }
+		public virtual ICollection<SimplePlayer> PlayersTradedIn { get; set; }
 
 		public DateTime? ExecutedAt { get; set; }
 
 		public DateTime? CreatedAt { get; set; }
+
+		[Column(TypeName = "ntext")]
+		public string TransactionJson { get; set; }
 	}
 }

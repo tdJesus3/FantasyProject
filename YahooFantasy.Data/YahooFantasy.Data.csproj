@@ -65,6 +65,10 @@
     <Compile Include="Migrations\201408090718465_DraftStartDate.Designer.cs">
       <DependentUpon>201408090718465_DraftStartDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409170134460_Trades.cs" />
+    <Compile Include="Migrations\201409170134460_Trades.Designer.cs">
+      <DependentUpon>201409170134460_Trades.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201408090718465_DraftStartDate.resx">
       <DependentUpon>201408090718465_DraftStartDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409170134460_Trades.resx">
+      <DependentUpon>201409170134460_Trades.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

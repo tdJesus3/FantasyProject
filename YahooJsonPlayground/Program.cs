@@ -17,8 +17,9 @@ namespace YahooJsonPlayground
 	{
 		static void Main(string[] args)
 		{
-			var leagues = GetLeagues();
-			GetLeagueSettings(leagues.Leagues.First());
+			//var leagues = GetLeagues();
+			//GetLeagueSettings(leagues.Leagues.First());
+			GetTransactions();
 		}
 
 		public static LeagueCollection GetLeagues()
@@ -47,6 +48,27 @@ namespace YahooJsonPlayground
 
 			var data = JObject.Parse(json);
 			var test = JsonConvert.DeserializeObject<SettingsRoot>(json);
+		}
+
+		public static void GetTransactions()
+		{
+			var file = @"..\..\Json\transactions_json.json";
+			string json;
+
+			using (var reader = new StreamReader(file))
+			{
+				using (var jReader = new JsonTextReader(reader))
+				{
+					while (jReader.Read())
+					{
+						Console.WriteLine("{0} - {1} - {2}", jReader.Path, jReader.TokenType, jReader.Value);
+					}
+				}
+			}
+
+			Console.ReadLine();
+
+			//var data = JObject.Parse(json);
 		}
 	}
 }
